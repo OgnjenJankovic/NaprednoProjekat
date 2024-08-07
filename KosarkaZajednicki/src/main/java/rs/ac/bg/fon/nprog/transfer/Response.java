@@ -6,7 +6,7 @@ import java.io.Serializable;
 import rs.ac.bg.fon.nprog.transfer.util.ResponseStatus;
  
 
-public class Response {
+public class Response implements Serializable{
 
 	private Object data;
     private Exception exc;
