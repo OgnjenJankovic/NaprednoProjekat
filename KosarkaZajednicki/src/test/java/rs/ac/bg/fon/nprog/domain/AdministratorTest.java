@@ -190,7 +190,7 @@ class AdministratorTest {
 		a.setPrezime("Jankovic");
 		a.setUsername("ogi");
 		a.setPassword("ogi");
-		String format = a.vrednostiZaUpdate();
+		String format = a.vrednostiZaInsert();
 		assertEquals("'Ognjen', 'Jankovic', 'ogi', 'ogi'", format);
 	}
 	
