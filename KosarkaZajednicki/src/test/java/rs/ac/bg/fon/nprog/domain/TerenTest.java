@@ -106,7 +106,7 @@ class TerenTest {
 	
 	@Test
 	void testTerenSetCenaPoSatuNula() {
-		assertThrows(NullPointerException.class, ()->t.setCenaPoSatu(0));
+		assertThrows(IllegalArgumentException.class, ()->t.setCenaPoSatu(0));
 	}
 	
 	@Test
