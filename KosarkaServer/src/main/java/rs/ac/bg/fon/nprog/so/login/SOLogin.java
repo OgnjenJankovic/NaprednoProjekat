@@ -7,10 +7,33 @@ import rs.ac.bg.fon.nprog.domain.Administrator;
 import java.util.ArrayList;
 import rs.ac.bg.fon.nprog.so.AbstractSO;
 
+/**
+ * Klasa `SOLogin` predstavlja specifičnu implementaciju poslovne logike za proces prijavljivanja korisnika.
+ * 
+ * Ova klasa nasleđuje AbstractSO i pruža konkretne implementacije za metode validate i execute,
+ * koje su specifične za logiku prijavljivanja. 
+ * 
+ * @author 2000o
+ * @version 1.1.0
+ */
 public class SOLogin extends AbstractSO{
 
+	/**
+	 * Predstavlja trenutno prijavljenog administratora.
+	 * 
+	 * Ovaj atribut čuva instancu klase `Administrator` koja se koristi za identifikaciju
+	 * i rad sa trenutno prijavljenim administratorom u okviru poslovne logike prijavljivanja.
+	 */
 	Administrator ulogovani;
 
+	/**
+	 * Validira prosleđeni objekat kako bi se osiguralo da je instanca klase `Administrator` 
+	 * i da trenutno prijavljeni administrator nije već prijavljen u sistemu.
+	 * 
+	 * @param ado Objekat koji treba da se validira. Treba da bude instanca klase `Administrator`.
+	 * @throws Exception Ako prosleđeni objekat nije instanca klase `Administrator` ili ako
+	 *         administrator sa istim korisničkim imenom već postoji u sistemu i već je prijavljen.
+	 */
     @Override
     protected void validate(AbstractDomainObject ado) throws Exception {
         if (!(ado instanceof Administrator)) {
@@ -27,6 +50,13 @@ public class SOLogin extends AbstractSO{
 
     }
 
+    /**
+     * Izvršava operaciju prijavljivanja administratora na osnovu prosleđenih kredencijala.
+     * 
+     * @param ado Objekat tipa `AbstractDomainObject` koji se koristi za pretragu administratora u bazi podataka.
+     * @throws Exception Ako dođe do greške tokom pretrage ili ako ne postoji administrator sa prosleđenim
+     *         korisničkim imenom i lozinkom.
+     */
     @Override
     protected void execute(AbstractDomainObject ado) throws Exception {
 
@@ -48,6 +78,11 @@ public class SOLogin extends AbstractSO{
 
     }
 
+    /**
+     * Vraća trenutno prijavljenog administratora.
+     * 
+     * @return Instanca klase `Administrator` koja predstavlja trenutno prijavljenog administratora.
+     */
     public Administrator getUlogovani() {
         return ulogovani;
     }
