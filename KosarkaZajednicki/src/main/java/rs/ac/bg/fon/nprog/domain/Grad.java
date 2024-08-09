@@ -5,47 +5,98 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Klasa koja predstavlja grad u kojem se organizuje termin
+ * 
+ * Ova klasa implementira AbstractDomainObject u odnosu na tabelu grad u bazi.
+ * 
+ * Grad ima svoj ID koji ga jedinstveno identifikuje i naziv.
+ * 
+ * @author 2000o
+ * @version 1.1.0
+ */
 public class Grad extends AbstractDomainObject{
 
+	/**
+	 * ID grada kao Long
+	 */
 	private Long gradID;
+	/**
+	 * Naziv grada kao String
+	 */
     private String naziv;
 	
 	
-	
+	/**
+	 * Konstruktor koji inicijalizuje objekat klase Grad
+	 */
 	public Grad() {
 	}
 	
 	
-
+	/**
+	 * Konstruktor koji inicijalizuje objekat klase Grad sa prosledjenim vrednostima svih atributa.
+	 * 
+	 * @param gradID ID grada kao Long.
+	 * @param naziv Naziv grada kao String.
+	 */
 	public Grad(Long gradID, String naziv) {
 		this.gradID = gradID;
 		this.naziv = naziv;
 	}
 
 
-
+	/**
+	 * Metoda koja vraca ID grada
+	 * 
+	 * @return ID grada kao Long
+	 */
 	public Long getGradID() {
 		return gradID;
 	}
 
 
-
+	/**
+	 * Metoda koja postavlja ID grada.
+	 * 
+	 * @param gradID ID grada kao Long.
+	 * @throws IllegalArgumentException ako je gradID manji od 1
+	 */
 	public void setGradID(Long gradID) {
+		if(gradID < 1) {
+			throw new IllegalArgumentException("GradID ne sme biti manji od jedan");
+		}
 		this.gradID = gradID;
 	}
 
 
-
+	/**
+	 * Metoda koja vraca naziv grada.
+	 * 
+	 * @return Naziv grada kao String.
+	 */
 	public String getNaziv() {
 		return naziv;
 	}
 
 
-
+	/**
+	 * Metoda koja postavlja naziv grada.
+	 * 
+	 * @param naziv Naziv grada kao String.
+	 * @throws NullPointerException ako je naziv null
+	 */
 	public void setNaziv(String naziv) {
+		if(naziv == null) {
+			throw new NullPointerException();
+		}
 		this.naziv = naziv;
 	}
 
+	/**
+	 * Vraca String koji predstavlja naziv grada.
+	 * @return Naziv grada kao String.
+	 */
 	@Override
 	public String toString() {
 		return naziv;
