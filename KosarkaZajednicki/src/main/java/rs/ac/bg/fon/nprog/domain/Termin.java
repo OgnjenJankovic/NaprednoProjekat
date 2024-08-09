@@ -6,18 +6,69 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Klasa koja predstavlja termin na kojem igraju igraci
+ * 
+ * Ova klasa implementira AbstractDomainObject u odnosu na tabelu tremin u bazi.
+ * 
+ * Termin ima svoj ID koji ga jedinstveno identifikuje,datum pocetka i kraja termina, broj sati,
+ * ukupna cena, Teren na kojem se organizuje, organizatora termina, administratora i listu igraca
+ * 
+ * @author 2000o
+ * @version 1.1.0
+ */
 public class Termin extends AbstractDomainObject{
 
+	/**
+	 * ID termina kao Long
+	 */
 	private Long terminID;
+	/**
+	 * Pocetak termina kao Date
+	 */
     private Date datumVremePocetka;
+    /**
+	 * Kraj termina kao Date
+	 */
     private Date datumVremeKraja;
+    /**
+	 * Broj sati kao int
+	 */
     private int brojSati;
+    /**
+	 * Ukupna cena kao Double
+	 */
     private double ukupnaCena;
+    /**
+	 * Teren na kojem se igra kao objekat klase Teren
+	 */
     private Teren teren;
+    /**
+     * Organizator termina kao objekat klase Korisnik
+     */
     private Korisnik korisnikOrganizator;
+    /**
+     * Administrator sistema kao objekat klase Administrator
+     */
     private Administrator administrator;
+    /**
+     * Lista stavki koje cine Igraci kao ArrayList<Igrac>
+     */
     private ArrayList<Igrac> igraci;
 
+    /**
+     * Konstruktor koji inicijalizuje objekat klase Termin sa prosledjenim vrednostima svih atributa.
+     * 
+     * @param terminID termin kao Long
+     * @param datumVremePocetka datum pocetka termina kao Date
+     * @param datumVremeKraja datum kraja termina kao Date
+     * @param brojSati broj sati kao int
+     * @param ukupnaCena ukupna cena kao Double
+     * @param teren Teren na kojem se igra termin kao objekat klase Teren
+     * @param korisnikOrganizator Organizator termina kao objekat klase Korisnik
+     * @param administrator Administrator sistema kao objekat klase Administrator
+     * @param igraci Igraci kao lista ArrayList
+     */
     public Termin(Long terminID, Date datumVremePocetka, Date datumVremeKraja, int brojSati, double ukupnaCena, Teren teren, Korisnik korisnikOrganizator, Administrator administrator, ArrayList<Igrac> igraci) {
         this.terminID = terminID;
         this.datumVremePocetka = datumVremePocetka;
@@ -30,6 +81,9 @@ public class Termin extends AbstractDomainObject{
         this.igraci = igraci;
     }
 
+    /**
+	 * Konstruktor koji inicijalizuje objekat klase Termin
+	 */
     public Termin() {
     }
 
@@ -123,10 +177,21 @@ public class Termin extends AbstractDomainObject{
         return "";
     }
 
+    /**
+	 * Metoda koja vraca ID termina
+	 * 
+	 * @return ID termina kao Long
+	 */
     public Long getTerminID() {
         return terminID;
     }
 
+    /**
+	 * Metoda koja postavlja ID termina.
+	 * 
+	 * @param terminID ID termina kao Long.
+	 * @throws IllegalArgumentException ako je terminID manji od 0
+	 */
     public void setTerminID(Long terminID) {
     	if(terminID<0) {
     		throw new IllegalArgumentException("terminID ne sme biti manji od nula");
@@ -134,10 +199,20 @@ public class Termin extends AbstractDomainObject{
         this.terminID = terminID;
     }
 
+    /**
+     * Metoda koja vraca datum i vreme pocetka termina
+     * 
+     * @return Datum i vreme pocetka termina
+     */
     public Date getDatumVremePocetka() {
         return datumVremePocetka;
     }
-
+    
+    /**
+     * Metoda koja predstavlja datum i vreme pocetka termina
+     * 
+     * @param datumVremePocetka Datum i vreme pocetka termina kao Date.
+     */
     public void setDatumVremePocetka(Date datumVremePocetka) {
     	if(datumVremePocetka==null && datumVremePocetka.after(datumVremeKraja)) {
     		throw new NullPointerException("datumVremePocetka ne sme biti null ni posle datumVremePocetka");
@@ -146,10 +221,20 @@ public class Termin extends AbstractDomainObject{
         this.datumVremePocetka = datumVremePocetka;
     }
 
+    /**
+     * Metoda koja vraca datum i vreme kraja termina
+     * 
+     * @return Datum i vreme kraja termina
+     */
     public Date getDatumVremeKraja() {
         return datumVremeKraja;
     }
 
+    /**
+     * Metoda koja predstavlja datum i vreme kraja termina
+     * 
+     * @param datumVremeKraja Datum i vreme kraja termina kao Date.
+     */
     public void setDatumVremeKraja(Date datumVremeKraja) {
     	if(datumVremeKraja==null && datumVremeKraja.before(datumVremePocetka)) {
     		throw new NullPointerException("datumVremeKraja ne sme biti null ni pre datumVremePocetka");
@@ -158,10 +243,21 @@ public class Termin extends AbstractDomainObject{
         this.datumVremeKraja = datumVremeKraja;
     }
 
+    /**
+	 * Metoda koja vraca broj sati termina
+	 * 
+	 * @return Broj sati kao int
+	 */
     public int getBrojSati() {
         return brojSati;
     }
 
+    /**
+	 * Metoda koja postavlja broj sati termina
+	 * 
+	 * @param brojSati Broj sati kao int
+	 * @throws IllegalArgumentException ako je brojSati manji od 0
+	 */
     public void setBrojSati(int brojSati) {
     	if(brojSati<0) {
     		throw new IllegalArgumentException("brojSati ne sme biti manja od nule");
@@ -169,10 +265,21 @@ public class Termin extends AbstractDomainObject{
         this.brojSati = brojSati;
     }
 
+    /**
+	 * Metoda koja vraca ukupnu cenu termina
+	 * 
+	 * @return Ukupna cena kao Double
+	 */
     public double getUkupnaCena() {
         return ukupnaCena;
     }
 
+    /**
+	 * Metoda koja postavlja ukupanu cenu termina
+	 * 
+	 * @param ukupnaCena Ukupna cena kao Double
+	 * @throws IllegalArgumentException ako je ukupnaCena manja od 0
+	 */
     public void setUkupnaCena(double ukupnaCena) {
     	if(ukupnaCena<0) {
     		throw new IllegalArgumentException("ukupnaCena ne sme biti manja od nule");
@@ -180,10 +287,21 @@ public class Termin extends AbstractDomainObject{
         this.ukupnaCena = ukupnaCena;
     }
 
+    /**
+	 * Metoda koja vraca teren.
+	 * 
+	 * @return teren  kao objekat klase Teren.
+	 */
     public Teren getTeren() {
         return teren;
     }
 
+    /**
+  	 * Metoda koja postavlja teren
+  	 * 
+  	 * @param teren Teren kao objekat klase Teren.
+  	 * @throws NullPointerException ako je teren null
+  	 */
     public void setTeren(Teren teren) {
     	if(teren==null) {
     		throw new NullPointerException("teren ne sme biti null");
@@ -191,18 +309,40 @@ public class Termin extends AbstractDomainObject{
         this.teren = teren;
     }
 
+    /**
+	 * Metoda koja vraca organizatora.
+	 * 
+	 * @return korisnikOrganizator  kao objekat klase Korisnik.
+	 */
     public Korisnik getKorisnikOrganizator() {
         return korisnikOrganizator;
     }
 
+    /**
+  	 * Metoda koja postavlja organizatora
+  	 * 
+  	 * @param korisnikOrganizator Organizator kao objekat klase Korisnik.
+  	 * @throws NullPointerException ako je korisnikOrganizator null
+  	 */
     public void setKorisnikOrganizator(Korisnik korisnikOrganizator) {
         this.korisnikOrganizator = korisnikOrganizator;
     }
 
+    /**
+	 * Metoda koja vraca administratora.
+	 * 
+	 * @return administratora  kao objekat klase Administrator.
+	 */
     public Administrator getAdministrator() {
         return administrator;
     }
 
+    /**
+  	 * Metoda koja postavlja administratora
+  	 * 
+  	 * @param administrator Administrator kao objekat klase Administrator.
+  	 * @throws NullPointerException ako je administrator null
+  	 */
     public void setAdministrator(Administrator administrator) {
     	if(administrator==null) {
     		throw new NullPointerException("administrator ne sme biti null");
@@ -210,10 +350,20 @@ public class Termin extends AbstractDomainObject{
         this.administrator = administrator;
     }
 
+    /**
+     * Metoda koja vraca listu igraca
+     * 
+     * @return Lista igraca kao List objekata koji implementiraju AbstractDomainObject
+     */
     public ArrayList<Igrac> getIgraci() {
         return igraci;
     }
 
+    /**
+     * Metoda koja postalja listu igraca
+     * 
+     * @param igraci Lista igraca kao List objekata koji implementiraju  AbstractDomainObject
+     */
     public void setIgraci(ArrayList<Igrac> igraci) {
     	if(igraci==null) {
     		throw new NullPointerException("igraci ne sme biti null");
