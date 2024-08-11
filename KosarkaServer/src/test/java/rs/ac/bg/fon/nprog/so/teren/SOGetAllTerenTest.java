@@ -56,8 +56,8 @@ class SOGetAllTerenTest {
         ArrayList<AbstractDomainObject> abstractDomainObjects = new ArrayList<>();
         Opstina opstina = new Opstina(1L, "Novi Sad");
         Grad grad = new Grad(1L, "Beograd");
-        abstractDomainObjects.add(new Teren(1L, "Teren1", "Adresa1", "Opis1", 100.0, opstina, grad));
-        abstractDomainObjects.add(new Teren(2L, "Teren2", "Adresa2", "Opis2", 150.0, opstina, grad));
+        abstractDomainObjects.add(new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, opstina, grad));
+        abstractDomainObjects.add(new Teren(2L, "Vozdovac 2", "Bulevar Oslobodjenja 122", "Teren od ploca od prolipropilena sa dva kosa.", 4000, opstina, grad));
 
         Mockito.when(dbBroker.select(Mockito.any(AbstractDomainObject.class))).thenReturn(abstractDomainObjects);
 

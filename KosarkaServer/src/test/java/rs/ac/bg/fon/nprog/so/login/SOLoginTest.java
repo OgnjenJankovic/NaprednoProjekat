@@ -27,7 +27,7 @@ class SOLoginTest {
     @BeforeEach
     void setUp() throws Exception {
         soLogin = new SOLogin();
-        mockAdministrator = new Administrator(1L, "John", "Doe", "johndoe", "password123");
+        mockAdministrator = new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi");
         dbBroker = Mockito.mock(DBBroker.class);
         serverController = Mockito.mock(ServerController.class);
 
@@ -82,7 +82,7 @@ class SOLoginTest {
     @Test
     void testExecute_Failure_InvalidCredentials() throws Exception {
         ArrayList<AbstractDomainObject> abstractDomainObjects = new ArrayList<>();
-        abstractDomainObjects.add(new Administrator(2L, "Jane", "Doe", "janedoe", "password456"));
+        abstractDomainObjects.add(new Administrator(2L, "Jovan", "Petrovic", "joca", "joca"));
 
         when(dbBroker.select(any(AbstractDomainObject.class))).thenReturn(abstractDomainObjects);
 

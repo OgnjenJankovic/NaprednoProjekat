@@ -53,8 +53,8 @@ class SOGetAllTipTest {
     @Test
     void testExecute_Success() throws Exception {
         ArrayList<AbstractDomainObject> abstractDomainObjects = new ArrayList<>();
-        abstractDomainObjects.add(new Tip(1L, "Tip1"));
-        abstractDomainObjects.add(new Tip(2L, "Tip2"));
+        abstractDomainObjects.add(new Tip(1L, "Free"));
+        abstractDomainObjects.add(new Tip(2L, "Premium"));
 
         Mockito.when(dbBroker.select(Mockito.any(AbstractDomainObject.class))).thenReturn(abstractDomainObjects);
 
