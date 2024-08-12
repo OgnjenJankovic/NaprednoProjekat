@@ -2,7 +2,13 @@ package rs.ac.bg.fon.nprog.forme;
 
 import rs.ac.bg.fon.nprog.controller.ClientController;
 import rs.ac.bg.fon.nprog.domain.Administrator;
+import rs.ac.bg.fon.nprog.json.reports.JsonReport;
+
 import java.net.SocketException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JOptionPane;
 import rs.ac.bg.fon.nprog.session.Session;
 
@@ -116,6 +122,14 @@ public class LoginForma extends javax.swing.JFrame {
             Administrator administrator = ClientController.getInstance().login(a);
             Session.getInstance().setUlogovani(administrator);
 
+            /*
+             * IZMENE ZA JSON DODAJE SE VREME PRIJAVE ADMINISTRATORA U MAPU PRIJAVA
+             */
+            Map<Administrator, LocalDateTime> prijaveAdministratora = new HashMap<>();
+            prijaveAdministratora.put(administrator, LocalDateTime.now());
+            JsonReport.setPrijaveAdministratora(prijaveAdministratora);
+            
+            
             new MainForm().setVisible(true);
             this.dispose();
 

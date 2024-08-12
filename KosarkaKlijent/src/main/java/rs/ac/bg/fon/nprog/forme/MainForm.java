@@ -1,6 +1,6 @@
 package rs.ac.bg.fon.nprog.forme;
 
-import rs.ac.bg.fon.nprog.FormKorisnik.FormNoviKorisnik; 
+import rs.ac.bg.fon.nprog.FormKorisnik.FormNoviKorisnik;  
 import rs.ac.bg.fon.nprog.FormKorisnik.FormPretragaKorisnika;
 import rs.ac.bg.fon.nprog.FormTermin.FormPretragaTermina;
 import rs.ac.bg.fon.nprog.controller.ClientController;
@@ -9,11 +9,16 @@ import rs.ac.bg.fon.nprog.domain.Igrac;
 import rs.ac.bg.fon.nprog.domain.Korisnik;
 import rs.ac.bg.fon.nprog.domain.Teren;
 import rs.ac.bg.fon.nprog.domain.Termin;
+import rs.ac.bg.fon.nprog.json.reports.JsonReport;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -395,6 +400,16 @@ public class MainForm extends javax.swing.JFrame {
 
         if (result == JOptionPane.YES_OPTION) {
             try {
+            	/*
+            	 *  DODAJE SE VREME ODJAVE ADMINISTRATORA U MAPU ODJAVA
+            	 */
+                Map<Administrator, LocalDateTime> odjaveAdministratora = new HashMap<>();
+                odjaveAdministratora.put(ulogovani, LocalDateTime.now());
+                JsonReport.setOdjaveAdministratora(odjaveAdministratora);
+
+                JsonReport.generateReport(); 
+                //GENERISANJE IZVESTAJA
+            	
                 ClientController.getInstance().logout(ulogovani);
                 new LoginForma().setVisible(true);
                 Session.getInstance().setUlogovani(null);

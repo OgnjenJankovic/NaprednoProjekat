@@ -1,0 +1,14 @@
+{
+  "prijaveAdministratora": [
+    {
+      "administrator": "Jovan Petrovic",
+      "datumVreme": "2024-08-12 20:33:25"
+    }
+  ],
+  "odjaveAdministratora": [
+    {
+      "administrator": "Jovan Petrovic",
+      "datumVreme": "2024-08-12 20:33:28"
+    }
+  ]
+}
