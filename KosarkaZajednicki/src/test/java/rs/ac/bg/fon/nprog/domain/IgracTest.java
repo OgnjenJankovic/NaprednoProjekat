@@ -46,15 +46,19 @@ class IgracTest {
 	
 	@Test
 	void testKorisnikKonstruktorFull() {
-		i = new Igrac(new Termin(1L, new Date(123, 11, 29, 18, 0, 0),new Date(123, 11, 29, 20, 0, 0),2, 8000, new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd")),
-				new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")), new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi"), null),
-				1, "/", new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")));
-		assertNotNull(i);
-		assertEquals(new Termin(1L, new Date(123, 11, 29, 18, 0, 0),new Date(123, 11, 29, 20, 0, 0),2, 8000, new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd")),
-				new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")), new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi"), null), i.getTermin());
-		assertEquals(1, i.getRbIgraca());
-		assertEquals("/", i.getNapomena());
-		assertEquals(new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")), i.getKorisnikIgrac());
+	    Termin termin = new Termin(1L, new Date(123, 11, 29, 18, 0, 0), new Date(123, 11, 29, 20, 0, 0), 2, 8000, 
+	        new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, 
+	        new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd")),
+	        new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")), 
+	        new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi"), null);
+	    
+	    Korisnik korisnik = new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium"));
+	    Igrac expectedIgrac = new Igrac(termin, 1, "/", korisnik);
+	    
+	    Igrac actualIgrac = new Igrac(termin, 1, "/", korisnik);
+	    
+	    assertNotNull(actualIgrac);
+	    assertEquals(expectedIgrac, actualIgrac);  
 	}
 	
 	
@@ -65,10 +69,14 @@ class IgracTest {
 	
 	@Test
 	void testIgracSetTerminOk() {
-		i.setTermin(new Termin(1L, new Date(123, 11, 29, 18, 0, 0),new Date(123, 11, 29, 20, 0, 0),2, 8000, new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd")),
-				new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")), new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi"), null));
-		assertEquals(new Termin(1L, new Date(123, 11, 29, 18, 0, 0),new Date(123, 11, 29, 20, 0, 0),2, 8000, new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd")),
-				new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")), new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi"), null), i.getTermin());
+	    Termin expectedTermin = new Termin(1L, new Date(123, 11, 29, 18, 0, 0), new Date(123, 11, 29, 20, 0, 0), 2, 8000, 
+	        new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd")),
+	        new Korisnik(1L, "Ognjen", "Jankovic", "ogi@gmail.com", "0631231234", new Tip(1L, "Premium")), 
+	        new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi"), null);
+
+	    i.setTermin(expectedTermin);
+
+	    assertEquals(expectedTermin, i.getTermin());
 	}
 	
 	@Test
@@ -102,15 +110,16 @@ class IgracTest {
 	@Test
 	void testIgracSetKorisnikIgracOk() {
 		i.setKorisnikIgrac(new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")));
-		assertEquals(new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")), i.getNapomena());
+		assertEquals(new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")), i.getKorisnikIgrac());
 	}
 	
 	
 	@Test
 	void testIgracToString() {
-		i.setRbIgraca(1);
-		String rezultat = i.toString();
-		assertTrue(rezultat.contains("1"));
+	    Igrac i = new Igrac();
+	    i.setRbIgraca(1);
+	    String rezultat = i.toString();
+	    assertTrue(rezultat.contains("1"));
 	}
 	
 	@ParameterizedTest

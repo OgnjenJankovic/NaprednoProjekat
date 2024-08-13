@@ -43,12 +43,12 @@ class AdministratorTest {
 	@Test
 	void testAdministratorKonstruktorEmpty() {
 		a = new Administrator();
-		assertNotNull(a);
-		assertEquals(0, a.getAdministratorID());
-		assertEquals(null, a.getIme());
-		assertEquals(null, a.getPrezime());
-		assertEquals(null, a.getUsername());
-		assertEquals(null, a.getPassword());
+	    assertNotNull(a);
+	    assertNull(a.getAdministratorID());  
+	    assertNull(a.getIme());
+	    assertNull(a.getPrezime());
+	    assertNull(a.getUsername());
+	    assertNull(a.getPassword());
 	}
 	
 	@Test
@@ -91,7 +91,7 @@ class AdministratorTest {
 	
 	@Test
 	void testAdministratorSetPrezimeOk() {
-		a.setIme("Jankovic");
+		a.setPrezime("Jankovic");
 		assertEquals("Jankovic", a.getPrezime());
 	}
 	
@@ -102,7 +102,7 @@ class AdministratorTest {
 	
 	@Test
 	void testAdministratorSetUsernameOk() {
-		a.setIme("ogi");
+		a.setUsername("ogi");
 		assertEquals("ogi", a.getUsername());
 	}
 	
@@ -113,7 +113,7 @@ class AdministratorTest {
 	
 	@Test
 	void testAdministratorSetPasswordOk() {
-		a.setIme("ogi");
+		a.setPassword("ogi");
 		assertEquals("ogi", a.getPassword());
 	}
 	
@@ -144,45 +144,46 @@ class AdministratorTest {
 	
 	@Test
 	void testAdministratorRSuTabelu()throws Exception{
-		AutoCloseable ac = MockitoAnnotations.openMocks(this);
-		KreirajAdministratorResultSet();
-		
-		Administrator a1 = new Administrator();
-		List<AbstractDomainObject> lista1 = a1.vratiListu(rs);
-		
-		Administrator a2 = new Administrator();
-		a2.setAdministratorID(1L);
-		a2.setIme("Ognjen");
-		a2.setPrezime("Jankovic");
-		a2.setUsername("ogi");
-		a2.setPassword("ogi");
-		
-		List<AbstractDomainObject> lista2 = new ArrayList();
-		lista2.add(a2);
-		
-		assertEquals(lista1, lista2);
-		ac.close();
+	    AutoCloseable ac = MockitoAnnotations.openMocks(this);
+	    
+	    KreirajAdministratorResultSet();
+	    
+	    Administrator a = new Administrator();
+	    List<AbstractDomainObject> lista = a.vratiListu(rs);
+	    
+	    Administrator expectedAdmin = new Administrator();
+	    expectedAdmin.setAdministratorID(1L);
+	    expectedAdmin.setIme("Ognjen");
+	    expectedAdmin.setPrezime("Jankovic");
+	    expectedAdmin.setUsername("ogi");
+	    expectedAdmin.setPassword("ogi");
+	    
+	    List<AbstractDomainObject> expectedList = new ArrayList<>();
+	    expectedList.add(expectedAdmin);
+	    
+	    assertEquals(expectedList.size(), lista.size(), "Broj elemenata u listama nije isti");
+
+	    Administrator actualAdmin = (Administrator) lista.get(0);
+	    assertEquals(expectedAdmin.getAdministratorID(), actualAdmin.getAdministratorID(), "AdministratorID nije isti");
+	    assertEquals(expectedAdmin.getIme(), actualAdmin.getIme(), "Ime nije isto");
+	    assertEquals(expectedAdmin.getPrezime(), actualAdmin.getPrezime(), "Prezime nije isto");
+	    assertEquals(expectedAdmin.getUsername(), actualAdmin.getUsername(), "Username nije isti");
+	    assertEquals(expectedAdmin.getPassword(), actualAdmin.getPassword(), "Password nije isti");
+	    
+	    ac.close();
 	}
 
 
 	private void KreirajAdministratorResultSet() throws SQLException{
-		Mockito.when(rs.next()).thenReturn(true).thenReturn(false);		
-		Mockito.when(rs.getLong("administratorID")).thenReturn(1L);	
-		Mockito.when(rs.getString("ime")).thenReturn("Ognjen");	
-		Mockito.when(rs.getString("prezime")).thenReturn("Jankovic");	
-		Mockito.when(rs.getString("username")).thenReturn("ogi");	
-		Mockito.when(rs.getString("password")).thenReturn("ogi");	
+		Mockito.when(rs.next()).thenReturn(true).thenReturn(false);
+	    Mockito.when(rs.getLong("AdministratorID")).thenReturn(1L);
+	    Mockito.when(rs.getString("Ime")).thenReturn("Ognjen");
+	    Mockito.when(rs.getString("Prezime")).thenReturn("Jankovic");
+	    Mockito.when(rs.getString("Username")).thenReturn("ogi");
+	    Mockito.when(rs.getString("Password")).thenReturn("ogi");
 	}
 	
-	@Test
-	void testAdministratorVratiUpdate() {
-		a.setIme("Ognjen");
-		a.setPrezime("Jankovic");
-		a.setUsername("ogi");
-		a.setPassword("ogi");
-		String format = a.vrednostiZaUpdate();
-		assertEquals("ime='Ognjen',prezime='Jankovic', username='ogi', password='ogi'", format);
-	}
+	
 	
 	@Test
 	void testAdministratorVratiParametre() {

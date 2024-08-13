@@ -43,9 +43,9 @@ class GradTest {
 	@Test
 	void testGradKonstruktorEmpty() {
 		g = new Grad();
-		assertNotNull(g);
-		assertEquals(0, g.getGradID());
-		assertEquals(null, g.getNaziv());
+	    assertNotNull(g);
+	    assertNull(g.getGradID());  
+	    assertNull(g.getNaziv());    
 	}
 
 	@Test
@@ -87,42 +87,53 @@ class GradTest {
 	
 	@ParameterizedTest
 	@CsvSource(
-			{
-				"1, 1, true",
-				"1, 2, false",
-			}
+	    {
+	        "1, 1, true",
+	        "1, 2, false",
+	    }
 	)
 	void testEqualsObject(long gradID1, long gradID2, boolean rez) {
-		g.setGradID(gradID1);
-		Grad g2 = new Grad();
-		g2.setGradID(gradID2);
-		assertEquals(rez, g.equals(g2));
+	    Grad g1 = new Grad();
+	    g1.setGradID(gradID1);
+
+	    Grad g2 = new Grad();
+	    g2.setGradID(gradID2);
+
+	    assertEquals(rez, g1.equals(g2), "Greska u uporedjivanju objekata");
 	}
 	
 	@Test
 	void testGradRSuTabelu()throws Exception{
 		AutoCloseable ac = MockitoAnnotations.openMocks(this);
-		KreirajGradResultSet();
-		
-		Grad g1 = new Grad();
-		List<AbstractDomainObject> lista1 = g1.vratiListu(rs);
-		
-		Grad g2 = new Grad();
-		g2.setGradID(1L);
-		g2.setNaziv("Beograd");
-		
-		List<AbstractDomainObject> lista2 = new ArrayList();
-		lista2.add(g2);
-		
-		assertEquals(lista1, lista2);
-		ac.close();
+	    KreirajGradResultSet();
+
+	    Grad g1 = new Grad();
+	    List<AbstractDomainObject> lista1 = g1.vratiListu(rs);
+
+	    Grad g2 = new Grad();
+	    g2.setGradID(1L);
+	    g2.setNaziv("Beograd");
+
+	    List<AbstractDomainObject> lista2 = new ArrayList<>();
+	    lista2.add(g2);
+
+	    assertEquals(1, lista1.size(), "Broj elemenata u lista1 nije tačan");
+	    assertEquals(1, lista2.size(), "Broj elemenata u lista2 nije tačan");
+
+	    Grad gradFromRS = (Grad) lista1.get(0);
+	    Grad expectedGrad = (Grad) lista2.get(0);
+
+	    assertEquals(expectedGrad.getGradID(), gradFromRS.getGradID(), "GradID nije isti");
+	    assertEquals(expectedGrad.getNaziv(), gradFromRS.getNaziv(), "Naziv nije isti");
+
+	    ac.close();
 	}
 
 
 	private void KreirajGradResultSet() throws SQLException {
-		Mockito.when(rs.next()).thenReturn(true).thenReturn(false);		
-		Mockito.when(rs.getLong("gradID")).thenReturn(1L);	
-		Mockito.when(rs.getString("naziv")).thenReturn("Beograd");	
+		Mockito.when(rs.next()).thenReturn(true).thenReturn(false);
+	    Mockito.when(rs.getLong("GradID")).thenReturn(1L);    
+	    Mockito.when(rs.getString("Naziv")).thenReturn("Beograd");  	
 	}
 	
 	

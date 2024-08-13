@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -70,7 +72,7 @@ public class Tip extends AbstractDomainObject{
 	 */
 	public void setTipID(Long tipID) {
 		if(tipID < 1) {
-			throw new IllegalArgumentException("tipID ne sme biti manji od 1");
+			throw new IllegalArgumentException("TipID ne sme biti manji od 1");
 		}
 		this.tipID = tipID;
 	}
@@ -92,7 +94,7 @@ public class Tip extends AbstractDomainObject{
 	 */
 	public void setNaziv(String naziv) {
 		if(naziv == null) {
-			throw new NullPointerException();
+			throw new NullPointerException("Naziv ne sme biti null");
 		}
 		this.naziv = naziv;
 	}
@@ -151,6 +153,24 @@ public class Tip extends AbstractDomainObject{
     public String uslovZaSelect() {
         return "";
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(tipID);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tip other = (Tip) obj;
+		return Objects.equals(tipID, other.tipID);
+	}
 	
+    
 	
 }

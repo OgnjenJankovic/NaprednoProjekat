@@ -3,6 +3,7 @@ package rs.ac.bg.fon.nprog.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Klasa koja predstavlja korisnika termina.
@@ -154,8 +155,8 @@ public class Korisnik extends AbstractDomainObject{
 	 * @throws IllegalArgumentException ako je korisnikID manji od 1
 	 */
     public void setKorisnikID(Long korisnikID) {
-    	if(korisnikID<0) {
-    		throw new IllegalArgumentException("korisnikID ne sme biti manji od nula");
+    	if(korisnikID<1) {
+    		throw new IllegalArgumentException("korisnikID ne sme biti manji od jedan");
     	}
         this.korisnikID = korisnikID;
     }
@@ -269,6 +270,24 @@ public class Korisnik extends AbstractDomainObject{
    	}
        this.tipKorisnika = tipKorisnika;
    }
+
+@Override
+public int hashCode() {
+	return Objects.hash(korisnikID);
+}
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Korisnik other = (Korisnik) obj;
+	return Objects.equals(korisnikID, other.korisnikID);
+}
 	
+   
 	
 }

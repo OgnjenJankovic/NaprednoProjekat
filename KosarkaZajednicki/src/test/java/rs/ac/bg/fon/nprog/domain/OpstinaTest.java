@@ -35,10 +35,10 @@ class OpstinaTest {
 
 	@Test
 	void testOpstinaKonstruktorEmpty() {
-		o = new Opstina();
-		assertNotNull(o);
-		assertEquals(0, o.getOpstinaID());
-		assertEquals(null, o.getNaziv());
+	    o = new Opstina();
+	    assertNotNull(o);
+	    assertNull(o.getOpstinaID()); 
+	    assertNull(o.getNaziv());
 	}
 
 	@Test
@@ -93,28 +93,29 @@ class OpstinaTest {
 	}
 	
 	@Test
-	void testGradRSuTabelu()throws Exception{
-		AutoCloseable ac = MockitoAnnotations.openMocks(this);
-		KreirajOpstinaResultSet();
-		
-		Opstina o1 = new Opstina();
-		List<AbstractDomainObject> lista1 = o1.vratiListu(rs);
-		
-		Opstina o2 = new Opstina();
-		o1.setOpstinaID(1L);
-		o2.setNaziv("Beograd");
-		
-		List<AbstractDomainObject> lista2 = new ArrayList();
-		lista2.add(o2);
-		
-		assertEquals(lista1, lista2);
-		ac.close();
+	void testOpstinaRSuTabelu() throws Exception {
+	    AutoCloseable ac = MockitoAnnotations.openMocks(this);
+	    KreirajOpstinaResultSet();
+
+	    Opstina o1 = new Opstina();
+	    List<AbstractDomainObject> lista1 = o1.vratiListu(rs);
+
+	    Opstina o2 = new Opstina();
+	    o2.setOpstinaID(1L); 
+	    o2.setNaziv("Vozdovac"); 
+
+	    List<AbstractDomainObject> lista2 = new ArrayList<>();
+	    lista2.add(o2);
+
+	    assertEquals(lista2, lista1);
+
+	    ac.close();
 	}
 
 	private void KreirajOpstinaResultSet() throws SQLException {
-		Mockito.when(rs.next()).thenReturn(true).thenReturn(false);		
-		Mockito.when(rs.getLong("opstinaID")).thenReturn(1L);	
-		Mockito.when(rs.getString("naziv")).thenReturn("Vozdovac");	
+	    Mockito.when(rs.next()).thenReturn(true).thenReturn(false);		
+	    Mockito.when(rs.getLong("OpstinaID")).thenReturn(1L);	
+	    Mockito.when(rs.getString("Naziv")).thenReturn("Vozdovac");	
 	}
 	
 	

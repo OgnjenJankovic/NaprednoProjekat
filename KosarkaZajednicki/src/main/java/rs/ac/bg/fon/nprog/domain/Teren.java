@@ -3,6 +3,7 @@ package rs.ac.bg.fon.nprog.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Klasa koja predstavlja teren na kojem se organizuje termin
@@ -166,8 +167,8 @@ public class Teren extends AbstractDomainObject{
 	 * @throws IllegalArgumentException ako je terenID manji od 0
 	 */
     public void setTerenID(Long terenID) {
-    	if(terenID<0) {
-    		throw new IllegalArgumentException("terenID ne sme biti manji od nule");
+    	if(terenID<1) {
+    		throw new IllegalArgumentException("terenID ne sme biti manji od jedan");
     	}
         this.terenID = terenID;
     }
@@ -254,8 +255,8 @@ public class Teren extends AbstractDomainObject{
 	 * @throws IllegalArgumentException ako je cenaPoSatu manji od 0
 	 */
     public void setCenaPoSatu(double cenaPoSatu) {
-    	if(cenaPoSatu<0) {
-    		throw new IllegalArgumentException("cenaPoSatu ne sme biti manji od nule");
+    	if(cenaPoSatu<=0) {
+    		throw new IllegalArgumentException("cenaPoSatu ne sme biti manji od nule ili jednako nuli");
     	}
         this.cenaPoSatu = cenaPoSatu;
     }
@@ -298,7 +299,33 @@ public class Teren extends AbstractDomainObject{
   	 * @throws NullPointerException ako je grad null
   	 */
     public void setGrad(Grad grad) {
+    	if(grad==null) {
+    		throw new NullPointerException("grad ne sme biti null");
+    	}
         this.grad = grad;
     }
+
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(terenID);
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Teren other = (Teren) obj;
+		return Objects.equals(terenID, other.terenID);
+	}
 	
+    
+    
 }
