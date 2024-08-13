@@ -42,18 +42,18 @@ class TipTest {
 
 	@Test
 	void testTipKonstruktorEmpty() {
-		t = new Tip();
-		assertNotNull(t);
-		assertEquals(0, t.getTipID());
-		assertEquals(null, t.getNaziv());
+	    t = new Tip();
+	    assertNotNull(t);
+	    assertNull(t.getTipID());
+	    assertNull(t.getNaziv());
 	}
 
 	@Test
 	void testTipKonstruktorFull() {
-		t = new Tip(1L, "Free");
-		assertNotNull(t);
-		assertEquals(1, t.getTipID());
-		assertEquals("Beograd", t.getNaziv());
+	    t = new Tip(1L, "Free");
+	    assertNotNull(t);
+	    assertEquals(1L, t.getTipID());
+	    assertEquals("Free", t.getNaziv()); 
 	}
 
 	@Test
@@ -101,28 +101,29 @@ class TipTest {
 	
 	@Test
 	void testTipRSuTabelu()throws Exception{
-		AutoCloseable ac = MockitoAnnotations.openMocks(this);
-		KreirajTipResultSet();
-		
-		Tip t1 = new Tip();
-		List<AbstractDomainObject> lista1 = t1.vratiListu(rs);
-		
-		Tip t2 = new Tip();
-		t2.setTipID(1L);
-		t2.setNaziv("Free");
-		
-		List<AbstractDomainObject> lista2 = new ArrayList();
-		lista2.add(t2);
-		
-		assertEquals(lista1, lista2);
-		ac.close();
+	    AutoCloseable ac = MockitoAnnotations.openMocks(this);
+	    KreirajTipResultSet();
+	    
+	    Tip t1 = new Tip();
+	    List<AbstractDomainObject> lista1 = t1.vratiListu(rs);
+	    
+	    Tip t2 = new Tip();
+	    t2.setTipID(1L);
+	    t2.setNaziv("Free");
+	    
+	    List<AbstractDomainObject> lista2 = new ArrayList<>();
+	    lista2.add(t2);
+	    
+	    assertEquals(lista2, lista1);
+	    
+	    ac.close();
 	}
 
 
 	private void KreirajTipResultSet() throws SQLException {
-		Mockito.when(rs.next()).thenReturn(true).thenReturn(false);		
-		Mockito.when(rs.getLong("tipID")).thenReturn(1L);	
-		Mockito.when(rs.getString("naziv")).thenReturn("Free");
+	    Mockito.when(rs.next()).thenReturn(true).thenReturn(false);        
+	    Mockito.when(rs.getLong("TipID")).thenReturn(1L);    
+	    Mockito.when(rs.getString("Naziv")).thenReturn("Free");
 	}
 	
 	

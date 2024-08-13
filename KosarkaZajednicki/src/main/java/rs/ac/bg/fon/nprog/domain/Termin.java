@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class Termin extends AbstractDomainObject{
 
@@ -128,8 +129,8 @@ public class Termin extends AbstractDomainObject{
     }
 
     public void setTerminID(Long terminID) {
-    	if(terminID<0) {
-    		throw new IllegalArgumentException("terminID ne sme biti manji od nula");
+    	if(terminID<1) {
+    		throw new IllegalArgumentException("terminID ne sme biti manji od jedan");
     	}
         this.terminID = terminID;
     }
@@ -196,6 +197,9 @@ public class Termin extends AbstractDomainObject{
     }
 
     public void setKorisnikOrganizator(Korisnik korisnikOrganizator) {
+    	if(korisnikOrganizator == null) {
+    		throw new NullPointerException("Korisnik organizator ne sme biti null");
+    	}
         this.korisnikOrganizator = korisnikOrganizator;
     }
 
@@ -220,7 +224,25 @@ public class Termin extends AbstractDomainObject{
     	}
         this.igraci = igraci;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(terminID);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Termin other = (Termin) obj;
+		return Objects.equals(terminID, other.terminID);
+	}
 	
+    
 	
 	
 }

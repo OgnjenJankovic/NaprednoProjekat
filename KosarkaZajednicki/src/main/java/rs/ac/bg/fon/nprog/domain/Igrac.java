@@ -3,6 +3,7 @@ package rs.ac.bg.fon.nprog.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Igrac extends AbstractDomainObject{
 
@@ -125,8 +126,8 @@ public class Igrac extends AbstractDomainObject{
     }
 
     public void setRbIgraca(int rbIgraca) {
-    	if(rbIgraca<0) {
-    		throw new IllegalArgumentException("rbIgraca ne sme biti manji od nula");
+    	if(rbIgraca<1) {
+    		throw new IllegalArgumentException("rbIgraca ne sme biti manji od jedan");
     	}
         this.rbIgraca = rbIgraca;
     }
@@ -152,5 +153,30 @@ public class Igrac extends AbstractDomainObject{
     	}
         this.korisnikIgrac = korisnikIgrac;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(rbIgraca);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Igrac other = (Igrac) obj;
+		return rbIgraca == other.rbIgraca;
+	}
+
+	@Override
+	public String toString() {
+		return "Igrac [termin=" + termin + ", rbIgraca=" + rbIgraca + ", napomena=" + napomena + ", korisnikIgrac="
+				+ korisnikIgrac + "]";
+	}
 	
+    
+    
 }

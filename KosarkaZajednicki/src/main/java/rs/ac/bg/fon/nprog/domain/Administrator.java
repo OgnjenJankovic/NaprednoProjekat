@@ -47,6 +47,9 @@ public class Administrator extends AbstractDomainObject{
     }
 
     public void setAdministratorID(Long administratorID) {
+    	if(administratorID < 1) {
+    		throw new IllegalArgumentException("administratorID ne sme biti manji od 1");
+    	}
         this.administratorID = administratorID;
     }
 
@@ -55,6 +58,9 @@ public class Administrator extends AbstractDomainObject{
     }
 
     public void setUsername(String username) {
+    	if(username == null) {
+    		throw new NullPointerException("Username ne sme biti null");
+    	}
         this.username = username;
     }
 
@@ -63,6 +69,9 @@ public class Administrator extends AbstractDomainObject{
     }
 
     public void setPassword(String password) {
+    	if(password == null) {
+    		throw new NullPointerException("password ne sme biti null");
+    	}
         this.password = password;
     }
 
@@ -71,6 +80,9 @@ public class Administrator extends AbstractDomainObject{
     }
 
     public void setIme(String ime) {
+    	if(ime == null) {
+    		throw new NullPointerException("ime ne sme biti null");
+    	}
         this.ime = ime;
     }
 
@@ -79,6 +91,9 @@ public class Administrator extends AbstractDomainObject{
     }
 
     public void setPrezime(String prezime) {
+    	if(prezime == null) {
+    		throw new NullPointerException("prezime ne sme biti null");
+    	}
         this.prezime = prezime;
     }
 
@@ -137,7 +152,7 @@ public class Administrator extends AbstractDomainObject{
     @Override
     public String vrednostiZaUpdate() {
         return " Ime = '" + ime + "', Prezime = '" + prezime + "', "
-                + "Username = '" + username + "', Password = '" + password + "' ";
+                + "Username = '" + username + "', Password = '" + password + "' ";    
     }
 
     @Override

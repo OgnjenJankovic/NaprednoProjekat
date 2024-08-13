@@ -3,6 +3,7 @@ package rs.ac.bg.fon.nprog.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Opstina extends AbstractDomainObject{
 
@@ -82,6 +83,9 @@ public class Opstina extends AbstractDomainObject{
     }
 
     public void setOpstinaID(Long opstinaID) {
+    	if(opstinaID < 1) {
+    		throw new IllegalArgumentException("OpstinaID ne sme biti manja od 1");
+    	}
         this.opstinaID = opstinaID;
     }
 
@@ -90,7 +94,29 @@ public class Opstina extends AbstractDomainObject{
     }
 
     public void setNaziv(String naziv) {
+    	if(naziv == null) {
+    		throw new NullPointerException("Naziv ne sme biti null");
+    	}
         this.naziv = naziv;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(opstinaID);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Opstina other = (Opstina) obj;
+		return Objects.equals(opstinaID, other.opstinaID);
+	}
+    
+    
 	
 }

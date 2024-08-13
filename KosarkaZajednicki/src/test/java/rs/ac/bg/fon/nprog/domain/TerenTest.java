@@ -34,29 +34,29 @@ class TerenTest {
 	}
 
 	@Test
-	void testKorisnikKonstruktorEmpty() {
-		t = new Teren();
-		assertNotNull(t);
-		assertEquals(0, t.getTerenID());
-		assertEquals(null, t.getNaziv());
-		assertEquals(null, t.getAdresa());
-		assertEquals(null, t.getOpis());
-		assertEquals(0, t.getCenaPoSatu());
-		assertEquals(null, t.getOpstina());
-		assertEquals(null, t.getGrad());
+	void testTerenKonstruktorEmpty() {
+	    t = new Teren();
+	    assertNotNull(t);
+	    assertNull(t.getTerenID()); 
+	    assertNull(t.getNaziv());
+	    assertNull(t.getAdresa());
+	    assertNull(t.getOpis());
+	    assertEquals(0.0, t.getCenaPoSatu(), 0.001);  
+	    assertNull(t.getOpstina());
+	    assertNull(t.getGrad());
 	}
 	
 	@Test
-	void testKorisnikKonstruktorFull() {
-		t = new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd"));
-		assertNotNull(t);
-		assertEquals(0, t.getTerenID());
-		assertEquals(null, t.getNaziv());
-		assertEquals(null, t.getAdresa());
-		assertEquals(null, t.getOpis());
-		assertEquals(0, t.getCenaPoSatu());
-		assertEquals(null, t.getOpstina());
-		assertEquals(null, t.getGrad());
+	void testTerenKonstruktorFull() {
+	    Teren t = new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd"));
+	    assertNotNull(t);
+	    assertEquals(1L, t.getTerenID());
+	    assertEquals("Vozdovac 1", t.getNaziv());
+	    assertEquals("Ustanicka 23", t.getAdresa());
+	    assertEquals("Betonski teren sa dva kosa.", t.getOpis());
+	    assertEquals(3000, t.getCenaPoSatu(), 0.001);
+	    assertEquals(new Opstina(1L, "Vozdovac"), t.getOpstina());
+	    assertEquals(new Grad(1L, "Beograd"), t.getGrad());
 	}
 	
 	@Test
@@ -105,8 +105,8 @@ class TerenTest {
 	}
 	
 	@Test
-	void testTerenSetCenaPoSatuNula() {
-		assertThrows(IllegalArgumentException.class, ()->t.setCenaPoSatu(0));
+	void testTerenSetCenaPoSatuManjaOdNula() {
+		assertThrows(IllegalArgumentException.class, ()->t.setCenaPoSatu(-1));
 	}
 	
 	@Test

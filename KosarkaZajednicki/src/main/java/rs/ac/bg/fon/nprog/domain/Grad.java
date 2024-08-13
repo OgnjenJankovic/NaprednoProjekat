@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Grad extends AbstractDomainObject{
 
@@ -31,6 +32,9 @@ public class Grad extends AbstractDomainObject{
 
 
 	public void setGradID(Long gradID) {
+		if(gradID < 1) {
+			throw new IllegalArgumentException("GradID ne sme biti manji od 1");
+		}
 		this.gradID = gradID;
 	}
 
@@ -43,6 +47,9 @@ public class Grad extends AbstractDomainObject{
 
 
 	public void setNaziv(String naziv) {
+		if(naziv == null) {
+			throw new NullPointerException("Naziv ne sme biti null");
+		}
 		this.naziv = naziv;
 	}
 
@@ -106,7 +113,29 @@ public class Grad extends AbstractDomainObject{
     public String uslovZaSelect() {
         return "";
     }
+
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(gradID);
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Grad other = (Grad) obj;
+		return Objects.equals(gradID, other.gradID);
+	}
 	
+    
 	
 	
 }

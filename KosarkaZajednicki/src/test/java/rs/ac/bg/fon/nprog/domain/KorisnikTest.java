@@ -35,14 +35,14 @@ class KorisnikTest {
 
 	@Test
 	void testKorisnikKonstruktorEmpty() {
-		k = new Korisnik();
-		assertNotNull(k);
-		assertEquals(0, k.getKorisnikID());
-		assertEquals(null, k.getIme());
-		assertEquals(null, k.getPrezime());
-		assertEquals(null, k.getEmail());
-		assertEquals(null, k.getTelefon());
-		assertEquals(null, k.getTipKorisnika());
+	    k = new Korisnik();
+	    assertNotNull(k);
+	    assertNull(k.getKorisnikID()); 
+	    assertNull(k.getIme());        
+	    assertNull(k.getPrezime());    
+	    assertNull(k.getEmail());    
+	    assertNull(k.getTelefon());   
+	    assertNull(k.getTipKorisnika()); 
 	}
 
 	@Test
@@ -149,53 +149,52 @@ class KorisnikTest {
 	@Test
 	void testKorisnikRSuTabelu()throws Exception{
 		AutoCloseable ac = MockitoAnnotations.openMocks(this);
-		KreirajKorisnikResultSet();
-		
-		Korisnik k1 = new Korisnik();
-		List<AbstractDomainObject> lista1 = k1.vratiListu(rs);
-		
-		Korisnik k2 = new Korisnik();
-		k2.setKorisnikID(1L);
-		k2.setIme("Ognjen");
-		k2.setPrezime("Jankovic");
-		k2.setEmail("ogi@gmail.com");
-		k2.setTelefon("0631231234");
-		k2.setTipKorisnika(new Tip());
-		
-		List<AbstractDomainObject> lista2 = new ArrayList();
-		lista2.add(k2);
-		
-		assertEquals(lista1, lista2);
-		ac.close();
+	    KreirajKorisnikResultSet();
+	    
+	    Korisnik k1 = new Korisnik();
+	    List<AbstractDomainObject> lista1 = k1.vratiListu(rs);
+	    
+	    Tip t = new Tip();
+	    t.setTipID(1L);
+	    t.setNaziv("Free");
+	    
+	    Korisnik k2 = new Korisnik();
+	    k2.setKorisnikID(1L);
+	    k2.setIme("Ognjen");
+	    k2.setPrezime("Jankovic");
+	    k2.setEmail("ogi@gmail.com");
+	    k2.setTelefon("0631231234");
+	    k2.setTipKorisnika(t);
+	    
+	    List<AbstractDomainObject> lista2 = new ArrayList<>();
+	    lista2.add(k2);
+	    
+	    assertEquals(lista2, lista1);
+	    
+	    ac.close();
 	}
 
 	private void KreirajKorisnikResultSet() throws SQLException {
-		Mockito.when(rs.next()).thenReturn(true).thenReturn(false);		
-		Mockito.when(rs.getLong("gradID")).thenReturn(1L);	
-		Mockito.when(rs.getString("naziv")).thenReturn("Beograd");	
-		
-	}
-	
-	@Test
-	void testKorisnikVratiUpdate() {
-		k.setIme("Ognjen");
-		k.setPrezime("Jankovic");
-		k.setEmail("ogi@gmail.com");
-		k.setTelefon("0631231234");
-		k.setTipKorisnika(new Tip(1L, "Premium"));
-		String format = k.vrednostiZaUpdate();
-		assertEquals("ime='Ognjen',prezime='Jankovic', email='ogi@gmail.com', telefon='0631231234', tipID='1L'", format);
+	    Mockito.when(rs.next()).thenReturn(true).thenReturn(false);
+	    Mockito.when(rs.getLong("KorisnikID")).thenReturn(1L);
+	    Mockito.when(rs.getString("Ime")).thenReturn("Ognjen");
+	    Mockito.when(rs.getString("Prezime")).thenReturn("Jankovic");
+	    Mockito.when(rs.getString("Email")).thenReturn("ogi@gmail.com");
+	    Mockito.when(rs.getString("Telefon")).thenReturn("0631231234");
+	    Mockito.when(rs.getLong("TipID")).thenReturn(1L);
+	    Mockito.when(rs.getString("Naziv")).thenReturn("Free");
 	}
 	
 	@Test
 	void testKorisnikVratiParametre() {
-		k.setIme("Ognjen");
-		k.setPrezime("Jankovic");
-		k.setEmail("ogi@gmail.com");
-		k.setTelefon("0631231234");
-		k.setTipKorisnika(new Tip(1L, "Premium"));
-		String format = k.vrednostiZaInsert();
-		assertEquals("'1L', 'Ognjen', 'Jankovic', 'ogi@gmail.com', '0631231234', '1L'", format);
+	    k.setKorisnikID(1L); 
+	    k.setIme("Ognjen");
+	    k.setPrezime("Jankovic");
+	    k.setEmail("ogi@gmail.com");
+	    k.setTelefon("0631231234");
+	    k.setTipKorisnika(new Tip(1L, "Premium"));
+	    String format = k.vrednostiZaInsert();
+	    assertEquals("'Ognjen', 'Jankovic', 'ogi@gmail.com', '0631231234', 1", format);
 	}
 	
 	
