@@ -17,6 +17,15 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SOGetAllKorisnik extends AbstractSO{
 
+	
+	public SOGetAllKorisnik(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOGetAllKorisnik() {
+        super();
+    }
+	
 	/**
 	 * Lista svih korisnika dobijena iz baze podataka.
 	 * 

@@ -17,6 +17,16 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SOAddKorisnik extends AbstractSO{
 
+	
+	public SOAddKorisnik(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOAddKorisnik() {
+        super();
+    }
+	
+	
 	/**
 	 * Validira prosleđeni objekat kako bi se osiguralo da je instanca klase `Korisnik` i da ne postoje 
 	 * korisnici sa istim emailom ili telefonom u bazi podataka.

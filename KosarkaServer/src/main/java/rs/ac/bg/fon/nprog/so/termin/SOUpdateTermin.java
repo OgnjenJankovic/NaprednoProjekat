@@ -18,6 +18,15 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SOUpdateTermin extends AbstractSO{
 
+	
+	public SOUpdateTermin(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOUpdateTermin() {
+        super();
+    }
+	
 	/**
 	 * Validira objekat pre nego što se izvrši operacija ažuriranja.
 	 * 

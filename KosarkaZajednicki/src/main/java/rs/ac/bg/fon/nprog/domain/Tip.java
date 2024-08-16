@@ -159,6 +159,8 @@ public class Tip extends AbstractDomainObject{
 		return Objects.hash(tipID);
 	}
 
+	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -168,8 +170,11 @@ public class Tip extends AbstractDomainObject{
 		if (getClass() != obj.getClass())
 			return false;
 		Tip other = (Tip) obj;
-		return Objects.equals(tipID, other.tipID);
+		return Objects.equals(naziv, other.naziv) && Objects.equals(tipID, other.tipID);
 	}
+
+	
+    
 	
     
 	

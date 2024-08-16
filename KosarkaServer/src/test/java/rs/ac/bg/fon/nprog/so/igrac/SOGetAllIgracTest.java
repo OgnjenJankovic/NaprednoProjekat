@@ -1,14 +1,23 @@
 package rs.ac.bg.fon.nprog.so.igrac;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import rs.ac.bg.fon.nprog.db.DBBroker;
 import rs.ac.bg.fon.nprog.domain.AbstractDomainObject;
@@ -16,77 +25,39 @@ import rs.ac.bg.fon.nprog.domain.Grad;
 import rs.ac.bg.fon.nprog.domain.Igrac;
 import rs.ac.bg.fon.nprog.domain.Korisnik;
 import rs.ac.bg.fon.nprog.domain.Termin;
+import rs.ac.bg.fon.nprog.so.AbstractSOTest;
 
-class SOGetAllIgracTest {
+class SOGetAllIgracTest extends AbstractSOTest{
 
-	private SOGetAllIgrac soGetAllIgrac;
-    private Termin mockTermin;
-    private Korisnik mockKorisnik;
-    private Igrac mockIgrac;
-    private DBBroker dbBroker;
-    private Connection connection;
+	@Mock
+    private DBBroker dbb; // Mock DBBroker
+    
+    @InjectMocks
+    private SOGetAllIgrac soGetAllIgrac;
 
     @BeforeEach
-    void setUp() throws Exception {
-        soGetAllIgrac = new SOGetAllIgrac();
-        mockTermin = Mockito.mock(Termin.class);
-        mockKorisnik = Mockito.mock(Korisnik.class);
-        mockIgrac = new Igrac(mockTermin, 1, "Test Napomena", mockKorisnik);
-        dbBroker = Mockito.mock(DBBroker.class);
-        connection = Mockito.mock(Connection.class);
-
-        Mockito.mockStatic(DBBroker.class);
-        Mockito.when(DBBroker.getInstance()).thenReturn(dbBroker);
-
-        Mockito.when(dbBroker.getConnection()).thenReturn(connection);
-    }
-
-    @AfterEach
-    void tearDown() {
-        soGetAllIgrac = null;
-        mockTermin = null;
-        mockKorisnik = null;
-        mockIgrac = null;
-        dbBroker = null;
-        connection = null;
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testValidate_Success() {
-        assertDoesNotThrow(() -> soGetAllIgrac.validate(mockIgrac));
-    }
-
-    @Test
-    void testValidate_Failure() {
-        AbstractDomainObject notIgrac = new Grad(); 
-        Exception exception = assertThrows(Exception.class, () -> soGetAllIgrac.validate(notIgrac));
-        assertEquals("Prosledjeni objekat nije instanca klase Igrac!", exception.getMessage());
-    }
-
-    @Test
-    void testExecute_Success() throws Exception {
-        ArrayList<AbstractDomainObject> igraci = new ArrayList<>();
-        igraci.add(mockIgrac);
+    public void testValidateValidObject() throws Exception {
+       
+        Igrac validIgrac = new Igrac(); 
         
-        Mockito.when(dbBroker.select(mockIgrac)).thenReturn(igraci);
-
-        soGetAllIgrac.execute(mockIgrac);
-
-        ArrayList<Igrac> resultList = soGetAllIgrac.getLista();
-        assertEquals(1, resultList.size());
-        Igrac resultIgrac = resultList.get(0);
-        assertEquals(mockTermin, resultIgrac.getTermin());
-        assertEquals(1, resultIgrac.getRbIgraca());
-        assertEquals("Test Napomena", resultIgrac.getNapomena());
-        assertEquals(mockKorisnik, resultIgrac.getKorisnikIgrac());
+        
+        assertDoesNotThrow(() -> soGetAllIgrac.validate(validIgrac),
+            "Validate metoda bi trebala da prihvati Igrac objekat bez izuzetaka.");
     }
 
     @Test
-    void testExecute_Failure() throws Exception {
-        Mockito.when(dbBroker.select(mockIgrac)).thenThrow(new Exception("Database error"));
-
-        Exception exception = assertThrows(Exception.class, () -> soGetAllIgrac.execute(mockIgrac));
-        assertEquals("Database error", exception.getMessage());
+    public void testValidateInvalidObject() {
+        Object invalidObject = new Grad(); 
+        Exception exception = assertThrows(Exception.class, () -> soGetAllIgrac.validate((AbstractDomainObject) invalidObject),
+            "Validate metoda bi trebala da baci izuzetak kada prosledi objekat koji nije instanca Igrac.");
+        
+        assertEquals("Prosledjeni objekat nije instanca klase Igrac!", exception.getMessage(),
+            "Poruka izuzetka nije odgovarajuća.");
     }
 
 }

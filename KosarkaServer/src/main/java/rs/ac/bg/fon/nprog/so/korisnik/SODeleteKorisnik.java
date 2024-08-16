@@ -16,6 +16,15 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SODeleteKorisnik extends AbstractSO{
 	
+	
+	public SODeleteKorisnik(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SODeleteKorisnik() {
+        super();
+    }
+	
 	/**
 	 * Validira prosleđeni objekat kako bi se osiguralo da je instanca klase `Korisnik`.
 	 * 

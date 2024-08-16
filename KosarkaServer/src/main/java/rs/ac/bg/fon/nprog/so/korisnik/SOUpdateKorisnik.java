@@ -16,6 +16,15 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SOUpdateKorisnik extends AbstractSO{
 
+	
+	public SOUpdateKorisnik(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOUpdateKorisnik() {
+        super(DBBroker.getInstance());
+    }
+	
 	/**
 	 * Validira prosleđeni objekat kako bi se osiguralo da je instanca klase `Korisnik`
 	 * i da se ne krše jedinstveni zahtevi za ažuriranje korisničkih podataka.

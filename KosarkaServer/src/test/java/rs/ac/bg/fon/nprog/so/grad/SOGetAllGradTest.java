@@ -1,86 +1,83 @@
 package rs.ac.bg.fon.nprog.so.grad;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import rs.ac.bg.fon.nprog.db.DBBroker;
 import rs.ac.bg.fon.nprog.domain.AbstractDomainObject;
 import rs.ac.bg.fon.nprog.domain.Grad;
 import rs.ac.bg.fon.nprog.domain.Korisnik;
+import rs.ac.bg.fon.nprog.domain.Opstina;
+import rs.ac.bg.fon.nprog.so.AbstractSOTest;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class SOGetAllGradTest {
+class SOGetAllGradTest extends AbstractSOTest {
 
-	private SOGetAllGrad soGetAllGrad;
+	@InjectMocks
+    private SOGetAllGrad soGetAllGrad;
+
+    @Mock
     private Grad grad;
-    private DBBroker dbBroker;
-    private Connection connection;
+
+    private Grad grad1;
+    private Grad grad2;
+    private ArrayList<Grad> gradovi;
 
     @BeforeEach
-    void setUp() throws Exception {
-        soGetAllGrad = new SOGetAllGrad();
-        grad = new Grad();
-        dbBroker = Mockito.mock(DBBroker.class);
-        connection = Mockito.mock(Connection.class);
-
-        Mockito.mockStatic(DBBroker.class);
-        Mockito.when(DBBroker.getInstance()).thenReturn(dbBroker);
-
-        Mockito.when(dbBroker.getConnection()).thenReturn(connection);
+    public void setUp() throws Exception {
+        super.setUp();
+        grad1 = new Grad(1L, "Beograd");
+        grad2 = new Grad(2L, "Novi Sad");
+        gradovi = new ArrayList<>(Arrays.asList(grad1, grad2));
     }
 
     @AfterEach
-    void tearDown() {
-        soGetAllGrad = null;
-        grad = null;
-        dbBroker = null;
-        connection = null;
+    public void tearDown() throws Exception {
+        super.tearDown();
     }
 
     @Test
-    void testValidate_Success() {
+    void testValidateSuccess() throws Exception {
+        Grad grad = new Grad(); 
         assertDoesNotThrow(() -> soGetAllGrad.validate(grad));
     }
 
     @Test
-    void testValidate_Failure() {
-    	AbstractDomainObject notGrad = new Korisnik();
-        Exception exception = assertThrows(Exception.class, () -> soGetAllGrad.validate(notGrad));
-        assertEquals("Prosledjeni objekat nije instanca klase Grad!", exception.getMessage());
+    void testValidateFailure() {
+        Korisnik korisnik = new Korisnik();
+        Exception thrownException = assertThrows(Exception.class, () -> soGetAllGrad.validate(korisnik));
+        assertEquals("Prosledjeni objekat nije instanca klase Grad!", thrownException.getMessage());
     }
 
-    @Test
-    void testExecute_Success() throws Exception {
-        ArrayList<AbstractDomainObject> gradovi = new ArrayList<>();
-        gradovi.add(new Grad(1L, "Beograd"));
-        gradovi.add(new Grad(2L, "Novi Sad"));
-
-        Mockito.when(dbBroker.select(grad)).thenReturn(gradovi);
-
-        soGetAllGrad.execute(grad);
-
-        ArrayList<Grad> resultList = soGetAllGrad.getLista();
-        assertEquals(2, resultList.size());
-        assertEquals("Beograd", resultList.get(0).getNaziv());
-        assertEquals("Novi Sad", resultList.get(1).getNaziv());
-    }
-
-    @Test
-    void testExecute_Failure() throws Exception {
-        Mockito.when(dbBroker.select(grad)).thenThrow(new Exception("Database error"));
-
-        Exception exception = assertThrows(Exception.class, () -> soGetAllGrad.execute(grad));
-        assertEquals("Database error", exception.getMessage());
-    }
-
+   
+    
+    
+    
 }

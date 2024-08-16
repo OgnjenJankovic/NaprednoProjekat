@@ -287,6 +287,8 @@ public boolean equals(Object obj) {
 	Korisnik other = (Korisnik) obj;
 	return Objects.equals(korisnikID, other.korisnikID);
 }
+
+
 	
    
 	

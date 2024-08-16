@@ -18,6 +18,15 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SOGetAllTeren extends AbstractSO{
 
+	
+	public SOGetAllTeren(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOGetAllTeren() {
+        super();
+    }
+	
 	/**
 	 * Lista objekata tipa `Teren` koja sadrži rezultate preuzete tokom prethodnog izvršavanja operacije.
 	 * 

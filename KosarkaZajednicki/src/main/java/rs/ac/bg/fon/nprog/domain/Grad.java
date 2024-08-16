@@ -178,7 +178,13 @@ public class Grad extends AbstractDomainObject{
 			return false;
 		Grad other = (Grad) obj;
 		return Objects.equals(gradID, other.gradID);
+	
+		
 	}
+
+
+
+	
 	
     
 	

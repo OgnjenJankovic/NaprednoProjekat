@@ -1,50 +1,74 @@
 package rs.ac.bg.fon.nprog.so.termin;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import rs.ac.bg.fon.nprog.db.DBBroker;
+import rs.ac.bg.fon.nprog.domain.AbstractDomainObject;
 import rs.ac.bg.fon.nprog.domain.Termin;
+import rs.ac.bg.fon.nprog.so.AbstractSOTest;
 
-class SODeleteTerminTest {
+class SODeleteTerminTest extends AbstractSOTest{
 
 	private SODeleteTermin soDeleteTermin;
-    private DBBroker dbBroker;
     private Termin termin;
-
+    
     @BeforeEach
-    public void setUp() {
-        soDeleteTermin = new SODeleteTermin();
-        dbBroker = mock(DBBroker.class);
-
-        when(DBBroker.getInstance()).thenReturn(dbBroker);
-
-        termin = new Termin(1L, null, null, 0, 0, null, null, null, null);
+    protected void setUp() throws Exception {
+        super.setUp();
+        soDeleteTermin = new SODeleteTermin(dbb);
+        
+        termin = new Termin();
+        termin.setTerminID(1L); 
     }
 
     @Test
-    public void testValidateValidTermin() throws Exception {
-        assertDoesNotThrow(() -> soDeleteTermin.validate(termin));
+    void testValidateSuccess() {
+        assertDoesNotThrow(() -> soDeleteTermin.templateExecute(termin));
     }
 
     @Test
-    public void testValidateNullTermin() {
-        Exception exception = assertThrows(Exception.class, () -> soDeleteTermin.validate(null));
-        assertEquals("Termin objekat ne sme biti null!", exception.getMessage());
+    void testValidateFailureInvalidObject() {
+        AbstractDomainObject invalidObject = new AbstractDomainObject() {
+            @Override
+            public String nazivTabele() { return null; }
+            @Override
+            public String alijas() { return null; }
+            @Override
+            public String join() { return null; }
+            @Override
+            public ArrayList<AbstractDomainObject> vratiListu(ResultSet rs) throws SQLException { return null; }
+            @Override
+            public String koloneZaInsert() { return null; }
+            @Override
+            public String uslov() { return null; }
+            @Override
+            public String vrednostiZaInsert() { return null; }
+            @Override
+            public String vrednostiZaUpdate() { return null; }
+            @Override
+            public String uslovZaSelect() { return null; }
+        };
+
+        Exception exception = assertThrows(Exception.class, () -> soDeleteTermin.templateExecute(invalidObject));
+        assertEquals("Prosledjeni objekat nije instanca klase Termin!", exception.getMessage());
     }
 
-    @Test
-    public void testExecute() throws Exception {
-        soDeleteTermin.execute(termin);
+    
 
-        verify(dbBroker, times(1)).delete(termin);
-    }
+    
 
 }

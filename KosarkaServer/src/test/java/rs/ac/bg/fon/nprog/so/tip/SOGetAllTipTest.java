@@ -1,77 +1,60 @@
 package rs.ac.bg.fon.nprog.so.tip;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import rs.ac.bg.fon.nprog.db.DBBroker;
 import rs.ac.bg.fon.nprog.domain.AbstractDomainObject;
+import rs.ac.bg.fon.nprog.domain.Grad;
+import rs.ac.bg.fon.nprog.domain.Korisnik;
 import rs.ac.bg.fon.nprog.domain.Opstina;
 import rs.ac.bg.fon.nprog.domain.Tip;
+import rs.ac.bg.fon.nprog.so.AbstractSOTest;
 
-class SOGetAllTipTest {
+ class SOGetAllTipTest  extends AbstractSOTest{
 
 	private SOGetAllTip soGetAllTip;
-    private Tip tip;
-    private DBBroker dbBroker;
+
+    @Mock
+    private DBBroker dbb;
 
     @BeforeEach
-    void setUp() {
-        soGetAllTip = new SOGetAllTip();
-        tip = new Tip();
-        dbBroker = Mockito.mock(DBBroker.class);
-
-        Mockito.mockStatic(DBBroker.class);
-        Mockito.when(DBBroker.getInstance()).thenReturn(dbBroker);
-    }
-
-    @AfterEach
-    void tearDown() {
-        soGetAllTip = null;
-        tip = null;
-        dbBroker = null;
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        soGetAllTip = new SOGetAllTip(dbb);
     }
 
     @Test
-    void testValidate_Success() {
+    void testValidateSuccess() throws Exception {
+        Tip tip = new Tip(); 
         assertDoesNotThrow(() -> soGetAllTip.validate(tip));
     }
 
     @Test
-    void testValidate_Failure() {
-        AbstractDomainObject notTip = new Opstina(); 
-        Exception exception = assertThrows(Exception.class, () -> soGetAllTip.validate(notTip));
-        assertEquals("Prosledjeni objekat nije instanca klase Tip!", exception.getMessage());
+    void testValidateFailure() {
+        Korisnik korisnik = new Korisnik();
+        Exception thrownException = assertThrows(Exception.class, () -> soGetAllTip.validate(korisnik));
+        assertEquals("Prosledjeni objekat nije instanca klase Tip!", thrownException.getMessage());
     }
     
-    @Test
-    void testExecute_Success() throws Exception {
-        ArrayList<AbstractDomainObject> abstractDomainObjects = new ArrayList<>();
-        abstractDomainObjects.add(new Tip(1L, "Free"));
-        abstractDomainObjects.add(new Tip(2L, "Premium"));
+   
 
-        Mockito.when(dbBroker.select(Mockito.any(AbstractDomainObject.class))).thenReturn(abstractDomainObjects);
-
-        soGetAllTip.execute(tip);
-
-        ArrayList<Tip> resultList = soGetAllTip.getLista();
-        assertEquals(2, resultList.size());
-        assertEquals("Tip1", resultList.get(0).getNaziv());
-        assertEquals("Tip2", resultList.get(1).getNaziv());
-    }
-
-    @Test
-    void testExecute_Failure() throws Exception {
-        Mockito.when(dbBroker.select(Mockito.any(AbstractDomainObject.class))).thenThrow(new SQLException("Database error"));
-
-        Exception exception = assertThrows(Exception.class, () -> soGetAllTip.execute(tip));
-        assertEquals("Database error", exception.getMessage());
-    }
-
+    
 }

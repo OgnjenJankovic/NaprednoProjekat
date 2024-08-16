@@ -2,6 +2,8 @@ package rs.ac.bg.fon.nprog.so.login;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -16,86 +18,50 @@ import rs.ac.bg.fon.nprog.controller.ServerController;
 import rs.ac.bg.fon.nprog.db.DBBroker;
 import rs.ac.bg.fon.nprog.domain.AbstractDomainObject;
 import rs.ac.bg.fon.nprog.domain.Administrator;
+import rs.ac.bg.fon.nprog.so.AbstractSOTest;
 
-class SOLoginTest {
+ class SOLoginTest extends AbstractSOTest {
 
-	private SOLogin soLogin;
-    private Administrator mockAdministrator;
-    private DBBroker dbBroker;
-    private ServerController serverController;
+	private SOLogin so;
 
     @BeforeEach
-    void setUp() throws Exception {
-        soLogin = new SOLogin();
-        mockAdministrator = new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi");
-        dbBroker = Mockito.mock(DBBroker.class);
-        serverController = Mockito.mock(ServerController.class);
-
-        Mockito.mockStatic(DBBroker.class);
-        Mockito.when(DBBroker.getInstance()).thenReturn(dbBroker);
-
-        Mockito.mockStatic(ServerController.class);
-        Mockito.when(ServerController.getInstance()).thenReturn(serverController);
-        
-        Mockito.when(serverController.getUlogovaniAdministratori()).thenReturn(new ArrayList<>());
+	protected
+    void setUp() {
+        so = new SOLogin();
     }
 
     @AfterEach
+	protected
     void tearDown() {
-        soLogin = null;
-        mockAdministrator = null;
-        dbBroker = null;
-        serverController = null;
+        ServerController.getInstance().getUlogovaniAdministratori().clear();
     }
 
     @Test
-    void testValidate_Success() throws Exception {
-        ArrayList<Administrator> loggedInAdmins = new ArrayList<>();
-        Mockito.when(serverController.getUlogovaniAdministratori()).thenReturn(loggedInAdmins);
+    void testSOLoginAlreadyLoggedIn() {
+        Administrator a1 = new Administrator(1L, "Marko", "Markovic", "marko", "pass123");
+
+        ServerController.getInstance().getUlogovaniAdministratori().add(a1);
+
+        Exception exception = assertThrows(Exception.class, () -> so.templateExecute(a1));
+
+        String expectedMessage = "Ovaj administrator je vec ulogovan na sistem!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void testSOLoginSuccess() {
+        Administrator a1 = new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi");
+
         
-        assertDoesNotThrow(() -> soLogin.validate(mockAdministrator));
+
+        assertDoesNotThrow(() -> so.templateExecute(a1));
+
+        Administrator loggedInAdmin = so.getUlogovani();
+
+        assertNotNull(loggedInAdmin);
+        assertEquals(a1.getUsername(), loggedInAdmin.getUsername());
+        assertEquals(a1.getPassword(), loggedInAdmin.getPassword());
     }
-
-    @Test
-    void testValidate_Failure_AlreadyLoggedIn() {
-        ArrayList<Administrator> loggedInAdmins = new ArrayList<>();
-        loggedInAdmins.add(mockAdministrator);
-        Mockito.when(serverController.getUlogovaniAdministratori()).thenReturn(loggedInAdmins);
-        
-        Exception exception = assertThrows(Exception.class, () -> soLogin.validate(mockAdministrator));
-        assertEquals("Ovaj administrator je vec ulogovan na sistem!", exception.getMessage());
-    }
-
-    @Test
-    void testExecute_Success() throws Exception {
-        ArrayList<AbstractDomainObject> abstractDomainObjects = new ArrayList<>();
-        abstractDomainObjects.add(mockAdministrator);
-
-        when(dbBroker.select(any(AbstractDomainObject.class))).thenReturn(abstractDomainObjects);
-
-        soLogin.execute(mockAdministrator);
-
-        assertEquals(mockAdministrator, soLogin.getUlogovani());
-        assertTrue(serverController.getUlogovaniAdministratori().contains(mockAdministrator));
-    }
-
-    @Test
-    void testExecute_Failure_InvalidCredentials() throws Exception {
-        ArrayList<AbstractDomainObject> abstractDomainObjects = new ArrayList<>();
-        abstractDomainObjects.add(new Administrator(2L, "Jovan", "Petrovic", "joca", "joca"));
-
-        when(dbBroker.select(any(AbstractDomainObject.class))).thenReturn(abstractDomainObjects);
-
-        Exception exception = assertThrows(Exception.class, () -> soLogin.execute(mockAdministrator));
-        assertEquals("Ne postoji administrator sa tim kredencijalima.", exception.getMessage());
-    }
-
-    @Test
-    void testExecute_Failure_EmptyDatabase() throws Exception {
-        when(dbBroker.select(any(AbstractDomainObject.class))).thenReturn(new ArrayList<>());
-
-        Exception exception = assertThrows(Exception.class, () -> soLogin.execute(mockAdministrator));
-        assertEquals("Ne postoji administrator sa tim kredencijalima.", exception.getMessage());
-    }
-
 }

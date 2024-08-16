@@ -21,6 +21,15 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SOAddTermin extends AbstractSO{
 
+	
+	public SOAddTermin(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOAddTermin() {
+        super();
+    }
+	
 	/**
 	 * Validira prosleđeni objekat kako bi se osiguralo da ispunjava uslove
 	 * za dodavanje termina u bazu podataka.

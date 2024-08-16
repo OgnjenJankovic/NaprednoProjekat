@@ -17,6 +17,15 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SODeleteTermin extends AbstractSO{
 
+	
+	public SODeleteTermin(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SODeleteTermin() {
+        super();
+    }
+	
 	/**
 	 * Validira da li prosleđeni objekat predstavlja validan objekat klase `Termin` za brisanje.
 	 * 

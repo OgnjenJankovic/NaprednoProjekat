@@ -13,7 +13,18 @@ import java.sql.SQLException;
  */
 public abstract class AbstractSO {
 
-	/**
+
+	
+	protected DBBroker dbBroker;
+	
+	public AbstractSO() {
+    }
+
+    public AbstractSO(DBBroker dbBroker) {
+        this.dbBroker = dbBroker;
+    }
+	
+    /**
 	 * Apstraktna metoda koja služi za validaciju objekta pre nego što se izvrši neka operacija.
 	 * 
 	 * @param ado Objekat tipa `AbstractDomainObject` koji treba validirati.

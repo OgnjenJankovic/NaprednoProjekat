@@ -18,6 +18,15 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SOGetAllTermin extends AbstractSO{
 
+	
+	public SOGetAllTermin(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOGetAllTermin() {
+        super();
+    }
+	
 	/**
 	 * Lista koja sadrži sve termine dohvaćene iz baze podataka.
 	 * 

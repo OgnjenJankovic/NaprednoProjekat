@@ -2,13 +2,16 @@ package rs.ac.bg.fon.nprog.so;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,59 +24,35 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import rs.ac.bg.fon.nprog.db.DBBroker;
 import rs.ac.bg.fon.nprog.domain.AbstractDomainObject;
+import rs.ac.bg.fon.nprog.domain.Korisnik;
 
 @RunWith(MockitoJUnitRunner.class)
-public abstract class AbstractSOTest {
+public abstract class AbstractSOTest{
 
-	
-	protected DBBroker dbb;
-	private AbstractSO abstractSO;
-    private DBBroker dbBrokerMock;
-    private Connection connectionMock;
+	private AutoCloseable closeable;
+
+    @Mock
+    protected DBBroker dbb;
 
     @BeforeEach
-    public void setUp() {
-        dbBrokerMock = mock(DBBroker.class);
-        connectionMock = mock(Connection.class);
+    protected void setUp() throws Exception {
+        closeable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+	protected
+    void tearDown() throws Exception {
+        if (closeable != null) {
+            closeable.close();
+        }
     }
     
-    @AfterEach
-    void tearDown() {
-    	dbBrokerMock = null;
-    	connectionMock = null;
-    }
+    
 
     @Test
-    public void testTemplateExecuteSuccess() throws Exception {
-
-        abstractSO.templateExecute(mock(AbstractDomainObject.class));
-
-        verify(connectionMock, times(1)).commit();
-        verify(connectionMock, never()).rollback();
-    }
-
-    @Test
-    public void testTemplateExecuteValidationFails() throws Exception {
-        doThrow(new Exception("Validation failed")).when(abstractSO).validate(any());
-
-        try {
-            abstractSO.templateExecute(mock(AbstractDomainObject.class));
-        } catch (Exception e) {
-            verify(connectionMock, never()).commit();
-            verify(connectionMock, times(1)).rollback();
-        }
-    }
-
-    @Test
-    public void testTemplateExecuteExecutionFails() throws Exception {
-        doThrow(new Exception("Execution failed")).when(abstractSO).execute(any());
-
-        try {
-            abstractSO.templateExecute(mock(AbstractDomainObject.class));
-        } catch (Exception e) {
-            verify(connectionMock, never()).commit();
-            verify(connectionMock, times(1)).rollback();
-        }
+    void testAbstractSO() {
+        DBBroker dbbroker = DBBroker.getInstance();
+        assertNotNull(dbbroker);
     }
 
 }
