@@ -8,6 +8,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOUpdateKorisnik extends AbstractSO{
 
+	public SOUpdateKorisnik(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOUpdateKorisnik() {
+        super(DBBroker.getInstance());
+    }
+	
 	@Override
     protected void validate(AbstractDomainObject ado) throws Exception {
         if (!(ado instanceof Korisnik)) {

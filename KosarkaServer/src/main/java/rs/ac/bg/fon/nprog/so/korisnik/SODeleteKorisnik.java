@@ -7,6 +7,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SODeleteKorisnik extends AbstractSO{
 	
+	public SODeleteKorisnik(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SODeleteKorisnik() {
+        super();
+    }
+	
 	@Override
     protected void validate(AbstractDomainObject ado) throws Exception {
         if (!(ado instanceof Korisnik)) {

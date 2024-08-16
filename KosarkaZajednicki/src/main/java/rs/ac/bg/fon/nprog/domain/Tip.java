@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import javax.swing.table.AbstractTableModel;
 
 public class Tip extends AbstractDomainObject{
@@ -95,6 +97,26 @@ public class Tip extends AbstractDomainObject{
     public String uslovZaSelect() {
         return "";
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(naziv, tipID);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tip other = (Tip) obj;
+		return Objects.equals(naziv, other.naziv) && Objects.equals(tipID, other.tipID);
+	}
+
 	
+	
+    
 	
 }

@@ -8,6 +8,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOGetAllIgrac extends AbstractSO{
 
+	public SOGetAllIgrac(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOGetAllIgrac() {
+        super();
+    }
+	
 	private ArrayList<Igrac> lista;
 
     @Override

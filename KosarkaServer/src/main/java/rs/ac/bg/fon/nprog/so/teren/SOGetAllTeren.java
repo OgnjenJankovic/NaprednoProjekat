@@ -8,6 +8,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOGetAllTeren extends AbstractSO{
 
+	public SOGetAllTeren(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOGetAllTeren() {
+        super();
+    }
+	
 	private ArrayList<Teren> lista;
 
     @Override

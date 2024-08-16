@@ -9,6 +9,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOLogin extends AbstractSO{
 
+	public SOLogin(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOLogin() {
+        super();
+    }
+
 	Administrator ulogovani;
 
     @Override

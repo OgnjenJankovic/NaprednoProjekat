@@ -10,6 +10,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOAddTermin extends AbstractSO{
 
+	public SOAddTermin(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOAddTermin() {
+        super();
+    }
+	
 	@Override
     protected void validate(AbstractDomainObject ado) throws Exception {
         if (!(ado instanceof Termin)) {

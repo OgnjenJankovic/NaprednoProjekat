@@ -8,6 +8,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOGetAllOpstina extends AbstractSO{
 
+	public SOGetAllOpstina(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOGetAllOpstina() {
+        super();
+    }
+	
 	private ArrayList<Opstina> lista;
 
     @Override

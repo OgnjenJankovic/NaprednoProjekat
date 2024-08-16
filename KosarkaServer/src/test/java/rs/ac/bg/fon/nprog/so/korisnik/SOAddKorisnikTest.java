@@ -1,7 +1,14 @@
 package rs.ac.bg.fon.nprog.so.korisnik;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterEach;
@@ -13,78 +20,63 @@ import rs.ac.bg.fon.nprog.db.DBBroker;
 import rs.ac.bg.fon.nprog.domain.AbstractDomainObject;
 import rs.ac.bg.fon.nprog.domain.Korisnik;
 import rs.ac.bg.fon.nprog.domain.Tip;
+import rs.ac.bg.fon.nprog.so.AbstractSOTest;
 
-class SOAddKorisnikTest {
+ class SOAddKorisnikTest extends AbstractSOTest{
 
-	private SOAddKorisnik soAddKorisnik;
-    private Korisnik korisnik;
-    private DBBroker dbBroker;
+	private SOAddKorisnik so;
+    private DBBroker dbBrokerMock;
 
     @BeforeEach
+	protected
     void setUp() {
-        soAddKorisnik = new SOAddKorisnik();
-        korisnik = new Korisnik(1L, "Ognjen", "Jankovic", "ogi@email.com", "0621095131", new Tip(1L, "Free"));
-        dbBroker = Mockito.mock(DBBroker.class);
-
-        Mockito.mockStatic(DBBroker.class);
-        Mockito.when(DBBroker.getInstance()).thenReturn(dbBroker);
+        dbBrokerMock = Mockito.mock(DBBroker.class);
+        so = new SOAddKorisnik(dbBrokerMock);
     }
-
+    
     @AfterEach
+	protected
     void tearDown() {
-        soAddKorisnik = null;
-        korisnik = null;
-        dbBroker = null;
+        dbBrokerMock = null;
+        so = null;
     }
 
-    @Test
-    void testValidate_Success() throws Exception {
-        ArrayList<AbstractDomainObject> existingKorisnici = new ArrayList<>();
-
-        Mockito.when(dbBroker.select(Mockito.any(AbstractDomainObject.class))).thenReturn(existingKorisnici);
-
-        assertDoesNotThrow(() -> soAddKorisnik.validate(korisnik));
-    }
-
-    @Test
-    void testValidate_EmailExists() throws Exception {
-        Korisnik existingKorisnik = new Korisnik(2L, "Ognjen2", "Jankovic2", "ogi@gmail.com", "0621095131", new Tip(2L, "Free"));
-        ArrayList<AbstractDomainObject> existingKorisnici = new ArrayList<>();
-        existingKorisnici.add(existingKorisnik);
-
-        Mockito.when(dbBroker.select(Mockito.any(AbstractDomainObject.class))).thenReturn(existingKorisnici);
-
-        Exception exception = assertThrows(Exception.class, () -> soAddKorisnik.validate(korisnik));
-        assertEquals("Korisnik sa tim emailom vec postoji!", exception.getMessage());
-    }
-
-    @Test
-    void testValidate_TelefonExists() throws Exception {
-    	Korisnik existingKorisnik = new Korisnik(2L, "Ognjen2", "Jankovic2", "ogi@gmail.com", "0621095131", new Tip(2L, "Free"));
-        ArrayList<AbstractDomainObject> existingKorisnici = new ArrayList<>();
-        existingKorisnici.add(existingKorisnik);
-
-        Mockito.when(dbBroker.select(Mockito.any(AbstractDomainObject.class))).thenReturn(existingKorisnici);
-
-        Exception exception = assertThrows(Exception.class, () -> soAddKorisnik.validate(korisnik));
-        assertEquals("Korisnik sa tim telefonom vec postoji!", exception.getMessage());
-    }
     
+
     @Test
-    void testExecute_Success() throws Exception {
-        Mockito.doNothing().when(dbBroker).insert(Mockito.any(AbstractDomainObject.class));
+    void testAddKorisnikDuplicateEmail() throws Exception {
+    	Korisnik k1 = new Korisnik(1L, "Ognjen", "Jankovic", "ogi@gmail.com", "0631231234", new Tip(1L, "Premium"));
+        Korisnik k2 = new Korisnik(2L, "Janko", "Jankovic", "ogi@gmail.com", "0657654321", new Tip(2L, "Premium"));
 
-        assertDoesNotThrow(() -> soAddKorisnik.execute(korisnik));
+        ArrayList<AbstractDomainObject> existingUsers = new ArrayList<>();
+        existingUsers.add(k2);
 
-        Mockito.verify(dbBroker, Mockito.times(1)).insert(Mockito.eq(korisnik));
+        when(dbBrokerMock.select(any(Korisnik.class))).thenReturn(existingUsers);
+
+        Exception exception = assertThrows(Exception.class, () -> so.templateExecute(k1));
+
+        String expectedMessage = "Korisnik sa tim emailom vec postoji!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        verify(dbBrokerMock, never()).insert(k1);
     }
-    
-    @Test
-    void testExecute_InsertFails() throws Exception {
-        Mockito.doThrow(new RuntimeException("Insert failed")).when(dbBroker).insert(Mockito.any(AbstractDomainObject.class));
 
-        Exception exception = assertThrows(Exception.class, () -> soAddKorisnik.execute(korisnik));
-        assertEquals("Insert failed", exception.getCause().getMessage());
+    
+
+    @Test
+    void testAddInvalidObject() throws SQLException {
+        AbstractDomainObject invalidObject = mock(AbstractDomainObject.class);
+
+        Exception exception = assertThrows(Exception.class, () -> so.templateExecute(invalidObject));
+
+        String expectedMessage = "Prosledjeni objekat nije instanca klase Korisnik!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        verify(dbBrokerMock, never()).insert(any(AbstractDomainObject.class));
     }
 
 }

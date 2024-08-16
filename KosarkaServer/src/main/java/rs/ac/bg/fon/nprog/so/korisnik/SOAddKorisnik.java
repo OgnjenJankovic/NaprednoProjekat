@@ -8,6 +8,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOAddKorisnik extends AbstractSO{
 
+	public SOAddKorisnik(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOAddKorisnik() {
+        super();
+    }
+	
 	@Override
     protected void validate(AbstractDomainObject ado) throws Exception {
         if (!(ado instanceof Korisnik)) {

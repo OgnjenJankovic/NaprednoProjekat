@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Grad extends AbstractDomainObject{
 
@@ -106,6 +107,26 @@ public class Grad extends AbstractDomainObject{
     public String uslovZaSelect() {
         return "";
     }
+
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(gradID, naziv);
+	}
+
+
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Grad grad = (Grad) o;
+        return gradID == grad.gradID && 
+               Objects.equals(naziv, grad.naziv);
+    }
+
+    
 	
 	
 	

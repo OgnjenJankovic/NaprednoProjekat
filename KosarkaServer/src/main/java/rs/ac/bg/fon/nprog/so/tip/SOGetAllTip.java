@@ -9,6 +9,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOGetAllTip extends AbstractSO{
 
+	public SOGetAllTip(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOGetAllTip() {
+        super();
+    }
+	
 	private ArrayList<Tip> lista;
 
     @Override

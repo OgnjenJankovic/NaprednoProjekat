@@ -8,6 +8,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOUpdateTermin extends AbstractSO{
 
+	public SOUpdateTermin(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOUpdateTermin() {
+        super();
+    }
+	
 	@Override
     protected void validate(AbstractDomainObject ado) throws Exception {
         if (!(ado instanceof Termin)) {

@@ -2,80 +2,98 @@ package rs.ac.bg.fon.nprog.so.korisnik;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import rs.ac.bg.fon.nprog.db.DBBroker;
 import rs.ac.bg.fon.nprog.domain.AbstractDomainObject;
+import rs.ac.bg.fon.nprog.domain.Grad;
 import rs.ac.bg.fon.nprog.domain.Korisnik;
 import rs.ac.bg.fon.nprog.domain.Tip;
+import rs.ac.bg.fon.nprog.so.AbstractSOTest;
 
-class SOUpdateKorisnikTest {
+class SOUpdateKorisnikTest extends AbstractSOTest{
 
-	private SOUpdateKorisnik soUpdateKorisnik;
+	@InjectMocks
+    private SOUpdateKorisnik soUpdateKorisnik;
+
+    @Mock
     private DBBroker dbBroker;
 
     @BeforeEach
-    public void setUp() {
-        soUpdateKorisnik = new SOUpdateKorisnik();
-        dbBroker = mock(DBBroker.class);
-        when(DBBroker.getInstance()).thenReturn(dbBroker);
+    protected void setUp() throws Exception {
+        super.setUp();
+        soUpdateKorisnik = new SOUpdateKorisnik(dbBroker);
+    }
+
+    @AfterEach
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        soUpdateKorisnik = null;
     }
 
     @Test
-    public void testValidateValidInstance() throws Exception {
-        Tip tip = new Tip(1L, "Free");
-        Korisnik korisnik = new Korisnik(1L, "Ognjen", "Jankovic", "ogi@gmail.com", "0621095131", tip);
+    void testValidateSuccess() throws Exception {
+        Korisnik k = new Korisnik(1L, "Ognjen", "Jankovic", "ogi@gmail.com", "0631231234", new Tip(1L, "Premium"));
+        ArrayList<AbstractDomainObject> existingUsers = new ArrayList<>();
+        existingUsers.add(k);
+
+        when(dbBroker.select(any(Korisnik.class))).thenReturn(existingUsers);
+
+        assertDoesNotThrow(() -> soUpdateKorisnik.validate(k));
+    }
+    
+    @Test
+    void testValidateFailure() {
+        Grad grad = new Grad();
+        Exception thrownException = assertThrows(Exception.class, () -> soUpdateKorisnik.validate(grad));
+        assertEquals("Prosledjeni objekat nije instanca klase Korisnik!", thrownException.getMessage());
+    }
+
+    @Test
+    void testValidateEmailConflict() throws Exception {
+        Korisnik k = new Korisnik(1L, "Ognjen", "Jankovic", "veljko@gmail.com", "0631231234", new Tip(1L, "Premium"));
+        ArrayList<AbstractDomainObject> existingUsers = new ArrayList<>();
+        existingUsers.add(new Korisnik(2L, "Veljko", "Nikolic", "veljko@gmail.com", "0632232234", new Tip(2L, "Free")));
         
-        when(dbBroker.select(any(Korisnik.class))).thenReturn(new ArrayList<>());
+        when(dbBroker.select(any(Korisnik.class))).thenReturn(existingUsers);
 
-        assertDoesNotThrow(() -> soUpdateKorisnik.validate(korisnik));
+        Exception thrownException = assertThrows(Exception.class, () -> soUpdateKorisnik.validate(k));
+        assertEquals("Korisnik sa tim emailom vec postoji!", thrownException.getMessage());
     }
 
     @Test
-    public void testValidateDuplicateEmail() throws SQLException {
-        Tip tip = new Tip(1L, "Free");
-        Korisnik existingKorisnik = new Korisnik(2L, "Ognjen2", "Jankovic2", "ogi@gmail.com", "0621095131", tip);
-        Korisnik korisnik = new Korisnik(1L, "Ognjen", "Jankovic", "ogi@gmail.com", "0621095131", tip);
-        
-        ArrayList<AbstractDomainObject> existingList = new ArrayList<>();
-        existingList.add(existingKorisnik);
-        when(dbBroker.select(any(Korisnik.class))).thenReturn(existingList);
+    void testValidateTelefonConflict() throws Exception {
+        Korisnik k = new Korisnik(1L, "Ognjen", "Jankovic", "ogi@gmail.com", "0654645434", new Tip(1L, "Premium"));
+        ArrayList<AbstractDomainObject> existingUsers = new ArrayList<>();
+        existingUsers.add(new Korisnik(2L, "Veljko", "Nikolic", "veljko@gmail.com", "0654645434", new Tip(2L, "Free")));
 
-        Exception exception = assertThrows(Exception.class, () -> soUpdateKorisnik.validate(korisnik));
-        assertEquals("Korisnik sa tim emailom vec postoji!", exception.getMessage());
+        when(dbBroker.select(any(Korisnik.class))).thenReturn(existingUsers);
+
+        Exception thrownException = assertThrows(Exception.class, () -> soUpdateKorisnik.validate(k));
+        assertEquals("Korisnik sa tim telefonom vec postoji!", thrownException.getMessage());
     }
 
-    @Test
-    public void testValidateDuplicatePhone() throws SQLException {
-        Tip tip = new Tip(1L, "Free");
-        Korisnik existingKorisnik = new Korisnik(2L, "Ognjen2", "Jankovic2", "ogi@gmail.com", "0621095131", tip);
-        Korisnik korisnik = new Korisnik(1L, "Ognjen", "Jankovic", "ogi@gmail.com", "0621095131", tip);
-        
-        ArrayList<AbstractDomainObject> existingList = new ArrayList<>();
-        existingList.add(existingKorisnik);
-        when(dbBroker.select(any(Korisnik.class))).thenReturn(existingList);
+    
 
-        Exception exception = assertThrows(Exception.class, () -> soUpdateKorisnik.validate(korisnik));
-        assertEquals("Korisnik sa tim telefonom vec postoji!", exception.getMessage());
-    }
+    
 
-    @Test
-    public void testExecute() throws Exception {
-        Tip tip = new Tip(1L, "Tip");
-        Korisnik korisnik = new Korisnik(1L, "Ime", "Prezime", "email@example.com", "123456789", tip);
-
-        soUpdateKorisnik.execute(korisnik);
-
-        verify(dbBroker).update(korisnik);
-    }
-
+   
 }

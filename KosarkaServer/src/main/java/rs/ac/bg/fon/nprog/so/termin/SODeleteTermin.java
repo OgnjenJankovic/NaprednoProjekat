@@ -8,6 +8,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SODeleteTermin extends AbstractSO{
 
+	public SODeleteTermin(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SODeleteTermin() {
+        super();
+    }
+	
 	@Override
     protected void validate(AbstractDomainObject ado) throws Exception {
         if (!(ado instanceof Termin)) {

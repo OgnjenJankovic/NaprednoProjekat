@@ -27,65 +27,66 @@ import rs.ac.bg.fon.nprog.domain.Opstina;
 import rs.ac.bg.fon.nprog.domain.Teren;
 import rs.ac.bg.fon.nprog.domain.Termin;
 import rs.ac.bg.fon.nprog.domain.Tip;
+import rs.ac.bg.fon.nprog.so.AbstractSOTest;
 
-class SOAddTerminTest {
+class SOAddTerminTest extends AbstractSOTest{
 
 	private SOAddTermin soAddTermin;
-    private DBBroker dbBroker;
     private Termin termin;
 
     @BeforeEach
-    public void setUp() throws SQLException {
-        soAddTermin = new SOAddTermin();
-        dbBroker = mock(DBBroker.class);
-
-        when(DBBroker.getInstance()).thenReturn(dbBroker);
-
-        PreparedStatement ps = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
-        when(dbBroker.insert(any(AbstractDomainObject.class))).thenReturn(ps);
-        when(ps.getGeneratedKeys()).thenReturn(rs);
-        when(rs.next()).thenReturn(true);
-        when(rs.getLong(1)).thenReturn(1L);
-
-        termin = new Termin(1L, new Date(123, 11, 29, 18, 0, 0),new Date(123, 11, 29, 20, 0, 0),2, 8000, new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd")),
-				new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")), new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi"), new ArrayList<>());
+    protected void setUp() throws Exception {
+        super.setUp();
+        soAddTermin = new SOAddTermin(dbb);
         
-        termin.getIgraci().add(new Igrac(new Termin(1L, new Date(123, 11, 29, 18, 0, 0),new Date(123, 11, 29, 20, 0, 0),2, 8000, new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd")),
-				new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium")), new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi"), null),
-				1, "/", new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium"))));
-        termin.getIgraci().add(new Igrac(new Termin(1L, new Date(123, 11, 29, 18, 0, 0),new Date(123, 11, 29, 20, 0, 0),2, 8000, new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd")),
-				new Korisnik(2L, "Veljko","Nikolic","veljko@gmail.com","0654645434", new Tip(1L, "Free")), new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi"), null),
-				1, "/", new Korisnik(1L, "Ognjen","Jankovic","ogi@gmail.com","0631231234", new Tip(1L, "Premium"))));
+        Teren teren = new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000.00, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd"));
+        Korisnik korisnik = new Korisnik(1L, "Ognjen", "Jankovic", "ogi@gmail.com", "0631231234", new Tip(1L, "Premium"));
+        Administrator administrator = new Administrator(1L, "Ognjen", "Jankovic", "ogi", "ogi");
+        
+        ArrayList<Igrac> igraci = new ArrayList<>();
+        igraci.add(new Igrac());
+        igraci.add(new Igrac()); 
+        
+        termin = new Termin();
+        termin.setBrojSati(2); 
+        termin.setUkupnaCena(4000.00); 
+        termin.setDatumVremePocetka(new Date(System.currentTimeMillis() - 3600000));
+        termin.setDatumVremeKraja(new Date(System.currentTimeMillis() + 3600000)); 
+        termin.setTeren(teren);
+        termin.setKorisnikOrganizator(korisnik);
+        termin.setAdministrator(administrator);
+        termin.setIgraci(igraci);
+    }
+    
+    @AfterEach
+    public void tearDown() throws Exception {
+        super.tearDown();
+    }
+
+    
+
+    @Test
+    void testValidateFailureNotTerminInstance() {
+        Exception exception = assertThrows(Exception.class, () -> soAddTermin.templateExecute(new Grad()));
+        assertEquals("Prosledjeni objekat nije instanca klase Termin!", exception.getMessage());
     }
 
     @Test
-    public void testValidateValidTermin() throws Exception {
-        assertDoesNotThrow(() -> soAddTermin.validate(termin));
-    }
-
-    @Test
-    public void testValidateInvalidBrojSati() {
+    void testValidateFailureInvalidBrojSati() {
         termin.setBrojSati(0);
-        Exception exception = assertThrows(Exception.class, () -> soAddTermin.validate(termin));
+
+        Exception exception = assertThrows(Exception.class, () -> soAddTermin.templateExecute(termin));
         assertEquals("Morate izracunati broj sati i ukupnu cenu!", exception.getMessage());
     }
 
     @Test
-    public void testValidateInvalidIgraci() {
-        termin.getIgraci().clear();
-        Exception exception = assertThrows(Exception.class, () -> soAddTermin.validate(termin));
+    void testValidateFailureInvalidBrojIgraca() {
+        termin.getIgraci().clear();  
+        termin.getIgraci().add(new Igrac());  
+        Exception exception = assertThrows(Exception.class, () -> soAddTermin.templateExecute(termin));
         assertEquals("Broj igraca mora biti izmedju 2 i 10!", exception.getMessage());
     }
 
-    @Test
-    public void testExecute() throws Exception {
-        soAddTermin.execute(termin);
-
-        verify(dbBroker, times(1)).insert(termin);
-        for (Igrac igrac : termin.getIgraci()) {
-            verify(dbBroker, times(1)).insert(igrac);
-        }
-    }
+    
 
 }

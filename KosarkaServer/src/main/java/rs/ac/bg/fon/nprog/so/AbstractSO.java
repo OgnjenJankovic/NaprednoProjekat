@@ -6,6 +6,15 @@ import java.sql.SQLException;
 
 public abstract class AbstractSO {
 
+	protected DBBroker dbBroker;
+	
+	public AbstractSO() {
+    }
+
+    public AbstractSO(DBBroker dbBroker) {
+        this.dbBroker = dbBroker;
+    }
+	
 	protected abstract void validate(AbstractDomainObject ado) throws Exception;
     protected abstract void execute(AbstractDomainObject ado) throws Exception;
 

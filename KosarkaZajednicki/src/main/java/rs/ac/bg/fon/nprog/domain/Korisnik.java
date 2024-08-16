@@ -3,6 +3,7 @@ package rs.ac.bg.fon.nprog.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Korisnik extends AbstractDomainObject{
 
@@ -158,6 +159,26 @@ public class Korisnik extends AbstractDomainObject{
    	}
        this.tipKorisnika = tipKorisnika;
    }
+
+@Override
+public int hashCode() {
+	return Objects.hash(email, korisnikID, telefon);
+}
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Korisnik other = (Korisnik) obj;
+	return Objects.equals(email, other.email) && Objects.equals(korisnikID, other.korisnikID)
+			&& Objects.equals(telefon, other.telefon);
+}
+
+  
 	
 	
 }

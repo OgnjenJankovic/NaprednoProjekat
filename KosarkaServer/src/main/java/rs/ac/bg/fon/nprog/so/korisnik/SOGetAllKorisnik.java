@@ -8,6 +8,14 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOGetAllKorisnik extends AbstractSO{
 
+	public SOGetAllKorisnik(DBBroker dbBroker) {
+        super(dbBroker);
+    }
+	
+	public SOGetAllKorisnik() {
+        super();
+    }
+	
 	private ArrayList<Korisnik> lista;
 
     @Override
