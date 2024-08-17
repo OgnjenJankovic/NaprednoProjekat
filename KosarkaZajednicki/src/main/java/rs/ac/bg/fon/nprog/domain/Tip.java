@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -151,6 +153,30 @@ public class Tip extends AbstractDomainObject{
     public String uslovZaSelect() {
         return "";
     }
+    
+	/**
+     * Metoda koja poredi dva tipa korisnika po njihovim ID-u i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Tip i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tip other = (Tip) obj;
+		return Objects.equals(tipID, other.tipID);
+	}
 	
+    
+    
 	
 }

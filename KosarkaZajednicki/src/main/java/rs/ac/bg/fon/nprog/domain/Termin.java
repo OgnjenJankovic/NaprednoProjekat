@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Klasa koja predstavlja termin na kojem igraju igraci
@@ -370,6 +371,28 @@ public class Termin extends AbstractDomainObject{
     	}
         this.igraci = igraci;
     }
+
+    /**
+     * Metoda koja poredi dva termina po njihovim ID-u i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Termin i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Termin other = (Termin) obj;
+		return Objects.equals(terminID, other.terminID);
+	}
 	
 	
 	

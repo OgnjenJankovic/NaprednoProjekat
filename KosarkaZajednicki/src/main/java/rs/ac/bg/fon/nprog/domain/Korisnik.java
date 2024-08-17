@@ -3,6 +3,7 @@ package rs.ac.bg.fon.nprog.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Klasa koja predstavlja korisnika termina.
@@ -269,6 +270,29 @@ public class Korisnik extends AbstractDomainObject{
    	}
        this.tipKorisnika = tipKorisnika;
    }
+
+   /**
+    * Metoda koja poredi dva korisnika po ID-u i vraca true ili false
+    * 
+    * @param obj Objekat sa kojim se vrsi uporedjivanje
+    * @return
+    * <ul>
+    * <li>true - ako su oba objekata klase Korisnik i imaju isti ID.</li>
+    * <li>false - u svim ostalim slucajevima.</li>
+    * </ul>
+    */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Korisnik other = (Korisnik) obj;
+		return Objects.equals(korisnikID, other.korisnikID);
+	}
 	
+   
 	
 }

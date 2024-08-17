@@ -3,6 +3,7 @@ package rs.ac.bg.fon.nprog.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Klasa koja predstavlja opstinu u kojem se organizuje termin
@@ -149,5 +150,29 @@ public class Opstina extends AbstractDomainObject{
 		}
 		this.naziv = naziv;
 	}
+
+	/**
+     * Metoda koja poredi dve opstine po njihovim ID-u i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Opstina i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Opstina other = (Opstina) obj;
+		return Objects.equals(opstinaID, other.opstinaID);
+	}
+	
+	
 	
 }

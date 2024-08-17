@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Klasa koja predstavlja grad u kojem se organizuje termin
@@ -157,6 +158,35 @@ public class Grad extends AbstractDomainObject{
     public String uslovZaSelect() {
         return "";
     }
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(gradID);
+	}
+
+
+	/**
+     * Metoda koja poredi dva grada po njihovim ID-u i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Grad i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Grad other = (Grad) obj;
+		return Objects.equals(gradID, other.gradID);
+	}
 	
 	
 	

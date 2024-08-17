@@ -3,6 +3,7 @@ package rs.ac.bg.fon.nprog.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Klasa koja predstavlja igraca termina.
@@ -229,5 +230,29 @@ public class Igrac extends AbstractDomainObject{
     	}
         this.korisnikIgrac = korisnikIgrac;
     }
+
+    /**
+     * Metoda koja poredi dva igraca po njihovim rbu i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Igrac i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Igrac other = (Igrac) obj;
+		return rbIgraca == other.rbIgraca;
+	}
 	
+    
+    
 }
