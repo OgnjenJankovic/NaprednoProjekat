@@ -118,10 +118,7 @@ class TerminTest {
 		assertEquals(new Teren(1L, "Vozdovac 1", "Ustanicka 23", "Betonski teren sa dva kosa.", 3000, new Opstina(1L, "Vozdovac"), new Grad(1L, "Beograd")), t.getTeren());
 	}
 	
-	@Test
-	void testTerminSetKorisnikNull() {
-		assertThrows(NullPointerException.class, ()->t.setKorisnikOrganizator(null));
-	}
+	
 	
 	@Test
 	void testTerminSetKorisnikOk() {

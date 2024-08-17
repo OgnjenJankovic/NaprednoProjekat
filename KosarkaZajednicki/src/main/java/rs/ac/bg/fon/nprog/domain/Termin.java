@@ -323,12 +323,8 @@ public class Termin extends AbstractDomainObject{
   	 * Metoda koja postavlja organizatora
   	 * 
   	 * @param korisnikOrganizator Organizator kao objekat klase Korisnik.
-  	 * @throws NullPointerException ako je korisnikOrganizator null
   	 */
     public void setKorisnikOrganizator(Korisnik korisnikOrganizator) {
-    	if(korisnikOrganizator == null) {
-    		throw new NullPointerException("Korisnik organizator ne sme biti null");
-    	}
         this.korisnikOrganizator = korisnikOrganizator;
     }
 
