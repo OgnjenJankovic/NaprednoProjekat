@@ -375,11 +375,17 @@ public class Termin extends AbstractDomainObject{
         this.igraci = igraci;
     }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(terminID);
-	}
 
+    /**
+     * Metoda koja poredi dva termina po njihovim ID-u i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Termin i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

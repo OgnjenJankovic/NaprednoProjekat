@@ -152,11 +152,18 @@ public class Opstina extends AbstractDomainObject{
         this.naziv = naziv;
     }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(opstinaID);
-	}
+	
 
+	/**
+     * Metoda koja poredi dve opstine po njihovim ID-u i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Opstina i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -168,5 +175,7 @@ public class Opstina extends AbstractDomainObject{
 		Opstina other = (Opstina) obj;
 		return Objects.equals(opstinaID, other.opstinaID);
 	}
+	
+	
 	
 }

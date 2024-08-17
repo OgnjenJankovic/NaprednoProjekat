@@ -271,24 +271,29 @@ public class Korisnik extends AbstractDomainObject{
        this.tipKorisnika = tipKorisnika;
    }
 
-@Override
-public int hashCode() {
-	return Objects.hash(korisnikID);
-}
-
-@Override
-public boolean equals(Object obj) {
-	if (this == obj)
-		return true;
-	if (obj == null)
-		return false;
-	if (getClass() != obj.getClass())
-		return false;
-	Korisnik other = (Korisnik) obj;
-	return Objects.equals(korisnikID, other.korisnikID);
-}
 
 
+   /**
+    * Metoda koja poredi dva korisnika po ID-u i vraca true ili false
+    * 
+    * @param obj Objekat sa kojim se vrsi uporedjivanje
+    * @return
+    * <ul>
+    * <li>true - ako su oba objekata klase Korisnik i imaju isti ID.</li>
+    * <li>false - u svim ostalim slucajevima.</li>
+    * </ul>
+    */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Korisnik other = (Korisnik) obj;
+		return Objects.equals(korisnikID, other.korisnikID);
+	}
 	
    
 	

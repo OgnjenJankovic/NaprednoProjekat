@@ -154,13 +154,17 @@ public class Tip extends AbstractDomainObject{
         return "";
     }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(tipID);
-	}
-
-	
-
+    
+	/**
+     * Metoda koja poredi dva tipa korisnika po njihovim ID-u i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Tip i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -170,11 +174,9 @@ public class Tip extends AbstractDomainObject{
 		if (getClass() != obj.getClass())
 			return false;
 		Tip other = (Tip) obj;
-		return Objects.equals(naziv, other.naziv) && Objects.equals(tipID, other.tipID);
+		return Objects.equals(tipID, other.tipID);
 	}
 
-	
-    
 	
     
 	

@@ -307,13 +307,17 @@ public class Teren extends AbstractDomainObject{
 
 
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(terenID);
-	}
 
-
-
+    /**
+     * Metoda koja poredi dva terena po njihovim ID-u i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Teren i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

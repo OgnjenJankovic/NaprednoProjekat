@@ -160,14 +160,16 @@ public class Grad extends AbstractDomainObject{
     }
 
 
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(gradID);
-	}
-
-
-
+	/**
+     * Metoda koja poredi dva grada po njihovim ID-u i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Grad i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -178,9 +180,10 @@ public class Grad extends AbstractDomainObject{
 			return false;
 		Grad other = (Grad) obj;
 		return Objects.equals(gradID, other.gradID);
+	}
 	
 		
-	}
+	
 
 
 

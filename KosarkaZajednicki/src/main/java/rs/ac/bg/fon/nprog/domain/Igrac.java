@@ -231,11 +231,23 @@ public class Igrac extends AbstractDomainObject{
         this.korisnikIgrac = korisnikIgrac;
     }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(rbIgraca);
-	}
 
+
+	@Override
+	public String toString() {
+		return "Igrac [termin=" + termin + ", rbIgraca=" + rbIgraca + ", napomena=" + napomena + ", korisnikIgrac="
+				+ korisnikIgrac + "]";
+	}
+    /**
+     * Metoda koja poredi dva igraca po njihovim rbu i vraca true ili false
+     * 
+     * @param obj Objekat sa kojim se vrsi uporedjivanje
+     * @return
+     * <ul>
+     * <li>true - ako su oba objekata klase Igrac i imaju isti ID.</li>
+     * <li>false - u svim ostalim slucajevima.</li>
+     * </ul>
+     */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -246,12 +258,7 @@ public class Igrac extends AbstractDomainObject{
 			return false;
 		Igrac other = (Igrac) obj;
 		return rbIgraca == other.rbIgraca;
-	}
 
-	@Override
-	public String toString() {
-		return "Igrac [termin=" + termin + ", rbIgraca=" + rbIgraca + ", napomena=" + napomena + ", korisnikIgrac="
-				+ korisnikIgrac + "]";
 	}
 	
     
