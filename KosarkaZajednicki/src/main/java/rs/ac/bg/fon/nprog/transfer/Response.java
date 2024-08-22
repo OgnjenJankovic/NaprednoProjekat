@@ -17,7 +17,7 @@ import rs.ac.bg.fon.nprog.transfer.util.ResponseStatus;
  * - exc (Exception): Sadrži izuzetak ako je došlo do greške prilikom obrade zahteva.
  * - responseStatus (ResponseStatus): Status odgovora koji označava uspeh ili neuspeh obrade zahteva.
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class Response implements Serializable{

@@ -14,7 +14,7 @@ import java.util.Objects;
  * 
  * 
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class Teren extends AbstractDomainObject{

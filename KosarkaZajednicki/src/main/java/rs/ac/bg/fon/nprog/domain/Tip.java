@@ -15,7 +15,7 @@ import javax.swing.table.AbstractTableModel;
  * 
  * Tip ima svoj ID koji ga jedinstveno identifikuje i naziv.
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class Tip extends AbstractDomainObject{

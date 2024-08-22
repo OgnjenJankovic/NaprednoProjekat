@@ -15,7 +15,7 @@ import java.util.Objects;
  * Termin ima svoj ID koji ga jedinstveno identifikuje,datum pocetka i kraja termina, broj sati,
  * ukupna cena, Teren na kojem se organizuje, organizatora termina, administratora i listu igraca
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class Termin extends AbstractDomainObject{

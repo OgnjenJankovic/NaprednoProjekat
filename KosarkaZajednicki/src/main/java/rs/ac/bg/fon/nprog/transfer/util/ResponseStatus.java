@@ -6,7 +6,7 @@ package rs.ac.bg.fon.nprog.transfer.util;
  * - `Success`: Označava da je zahtev uspešno obrađen i rezultat je uspešan.
  * - `Error`: Označava da je došlo do greške prilikom obrade zahteva.
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public enum ResponseStatus {

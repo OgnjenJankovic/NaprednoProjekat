@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Zahtev se salje sa klijenata ka serveru radi izvrsavanja odredjene operacije.
  * Takodje, implementira interfejs Serializable kako bi objekat mogao da se prenosi preko mreze
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class Request implements Serializable {

@@ -12,7 +12,7 @@ import java.util.Objects;
  * 
  * Korisnik ima ID koji je jedinstven identifikator,ime i prezime, email, broj telefona i tipKorisnika
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class Korisnik extends AbstractDomainObject{

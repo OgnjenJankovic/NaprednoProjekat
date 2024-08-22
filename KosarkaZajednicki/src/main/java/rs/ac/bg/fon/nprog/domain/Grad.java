@@ -13,7 +13,7 @@ import java.util.Objects;
  * 
  * Grad ima svoj ID koji ga jedinstveno identifikuje i naziv.
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class Grad extends AbstractDomainObject{

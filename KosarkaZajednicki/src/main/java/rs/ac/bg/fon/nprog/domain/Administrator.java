@@ -12,7 +12,7 @@ import java.util.Objects;
  * 
  * Administrator ima svoj ID koji je jedinstven identifikator, kao i ime, prezime, username i password
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class Administrator extends AbstractDomainObject{
