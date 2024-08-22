@@ -11,7 +11,7 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  * 
  * Ova klasa nasleđuje `AbstractSO` i implementira logiku za validaciju i izvršenje operacije ažuriranja korisnika.
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class SOUpdateKorisnik extends AbstractSO{

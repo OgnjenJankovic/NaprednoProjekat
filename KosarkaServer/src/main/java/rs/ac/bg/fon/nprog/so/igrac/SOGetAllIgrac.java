@@ -10,7 +10,7 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  * Klasa koja predstavlja sistemsku operaciju koja vraca listu svih igraca koji postoje u bazi.
  * Klasa nasledjuje AbstractSO koja predstavlja apstraktnu sistemsku operaciju
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class SOGetAllIgrac extends AbstractSO{

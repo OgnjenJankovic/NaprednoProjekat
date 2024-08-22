@@ -13,7 +13,7 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  * Ova klasa nasleđuje AbstractSO i pruža konkretne implementacije za metode validate i execute,
  * koje su specifične za logiku prijavljivanja. 
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class SOLogin extends AbstractSO{

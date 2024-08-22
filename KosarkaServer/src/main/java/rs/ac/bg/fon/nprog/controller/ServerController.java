@@ -30,7 +30,7 @@ import rs.ac.bg.fon.nprog.so.tip.SOGetAllTip;
  * Nakon toga, Kontroler prihvata i vraca rezultat te sistemske operacije.
  * Implementiran je pomocu Singlton paterna kako bi se osiguralo kreiranje samo jedne instance Kontrolera-a
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class ServerController {

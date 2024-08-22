@@ -10,6 +10,9 @@ import java.sql.SQLException;
  * Sve sistemske operacije nasledjuju ovu apstraktnu klasu
  * Klasa sadrzi mehanizam za upravljanje transakcijama i izvrsavanje operacija nad bazom podataka.
  * Svaka klasa koja nasledjuje ovu klasu treba da implementira metode validate i execute
+ * 
+ * @author OgnjenJankovic
+ * @version 1.1.0
  */
 public abstract class AbstractSO {
 
