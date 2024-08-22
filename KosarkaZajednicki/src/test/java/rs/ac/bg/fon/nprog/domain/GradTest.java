@@ -3,7 +3,7 @@
  */
 package rs.ac.bg.fon.nprog.domain;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*; 
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
