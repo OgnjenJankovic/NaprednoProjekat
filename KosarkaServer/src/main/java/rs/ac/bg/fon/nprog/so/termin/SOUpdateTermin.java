@@ -13,7 +13,7 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  * i izvršenje ažuriranja objekta `Termin`. Prvi deo operacije uključuje proveru validnosti
  * objekta, dok drugi deo vrši ažuriranje u bazi podataka.
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class SOUpdateTermin extends AbstractSO{

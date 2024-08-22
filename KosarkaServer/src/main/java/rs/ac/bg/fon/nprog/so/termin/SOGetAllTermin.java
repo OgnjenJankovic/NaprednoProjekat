@@ -13,7 +13,7 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  * dohvata svih objekata tipa `Termin`. Rezultat operacije je lista svih termina koji su dostupni u 
  * bazi podataka.
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class SOGetAllTermin extends AbstractSO{

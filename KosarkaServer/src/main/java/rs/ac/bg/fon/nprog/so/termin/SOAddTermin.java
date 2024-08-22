@@ -16,7 +16,7 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  * obrasce za rad sa objektima i bazom podataka kako bi se obezbedilo da svi
  * podaci budu pravilno obrađeni i sačuvani.
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class SOAddTermin extends AbstractSO{

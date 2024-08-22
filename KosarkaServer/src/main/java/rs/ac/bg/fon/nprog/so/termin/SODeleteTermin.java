@@ -12,7 +12,7 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  * i koristi njene metode za validaciju i izvršenje brisanja termina. Klasa omogućava uklanjanje termina kao
  * i svih povezanih podataka iz baze.
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class SODeleteTermin extends AbstractSO{
