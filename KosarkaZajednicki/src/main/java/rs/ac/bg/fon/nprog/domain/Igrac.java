@@ -12,7 +12,7 @@ import java.util.Objects;
  * 
  * Igrac ima ID termina koji je jedinstven identifikator,redni broj igraca, napomenu i korisnika
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public class Igrac extends AbstractDomainObject{

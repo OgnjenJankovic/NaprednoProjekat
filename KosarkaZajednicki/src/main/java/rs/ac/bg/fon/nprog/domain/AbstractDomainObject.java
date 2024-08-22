@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  *Takodje, nasledjuje interfejs Serializable kako bi objekat mogao da se prenosi preko mreze
  *
- *@author 2000o
+ *@author OgnjenJankovic
  *@version 1.1.0
  */
 public abstract class AbstractDomainObject implements Serializable{

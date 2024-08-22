@@ -8,7 +8,7 @@ package rs.ac.bg.fon.nprog.transfer.util;
  * Ove konstante se koriste za identifikaciju operacija prilikom komunikacije klijenata sa serverom.
  * Svaka operacija ima jedinstvenu vrednost.
  * 
- * @author 2000o
+ * @author OgnjenJankovic
  * @version 1.1.0
  */
 public interface Operation {
