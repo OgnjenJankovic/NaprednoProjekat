@@ -1,5 +1,6 @@
 package rs.ac.bg.fon.nprog.controller;
 
+import rs.ac.bg.fon.nprog.db.DBBroker;
 import rs.ac.bg.fon.nprog.domain.Administrator;
 import rs.ac.bg.fon.nprog.domain.Grad;
 import rs.ac.bg.fon.nprog.domain.Igrac;
@@ -26,6 +27,8 @@ import rs.ac.bg.fon.nprog.so.tip.SOGetAllTip;
 
 public class ServerController {
 
+	private DBBroker dbBroker;
+	
 	private static ServerController instance;
     private ArrayList<Administrator> ulogovaniAdministratori = new ArrayList<>();
     

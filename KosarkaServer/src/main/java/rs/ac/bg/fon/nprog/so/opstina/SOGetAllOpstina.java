@@ -8,8 +8,10 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOGetAllOpstina extends AbstractSO{
 
+	private DBBroker dbBroker;
+	
 	public SOGetAllOpstina(DBBroker dbBroker) {
-        super(dbBroker);
+		this.dbBroker = dbBroker;
     }
 	
 	public SOGetAllOpstina() {
@@ -27,7 +29,7 @@ public class SOGetAllOpstina extends AbstractSO{
 
     @Override
     protected void execute(AbstractDomainObject ado) throws Exception {
-        ArrayList<AbstractDomainObject> opstine = DBBroker.getInstance().select(ado);
+        ArrayList<AbstractDomainObject> opstine = dbBroker.select(ado);
         lista = (ArrayList<Opstina>) (ArrayList<?>) opstine;
     }
 

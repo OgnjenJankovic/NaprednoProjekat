@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -30,29 +31,43 @@ import rs.ac.bg.fon.nprog.so.AbstractSOTest;
 
  class SOGetAllTipTest  extends AbstractSOTest{
 
-	private SOGetAllTip soGetAllTip;
+	 @InjectMocks
+	    private SOGetAllTip soGetAllTip;
 
-    @Mock
-    private DBBroker dbb;
+	   
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        soGetAllTip = new SOGetAllTip(dbb);
-    }
+	    private Tip tip1;
+	    private Tip tip2;
+	    private ArrayList<Tip> tipovi;
 
-    @Test
-    void testValidateSuccess() throws Exception {
-        Tip tip = new Tip(); 
-        assertDoesNotThrow(() -> soGetAllTip.validate(tip));
-    }
+	    @BeforeEach
+	    public void setUp() throws Exception {
+	        MockitoAnnotations.openMocks(this);
+	        tip1 = new Tip(1L, "Premium");
+	        tip2 = new Tip(2L, "Free");
+	        tipovi = new ArrayList<>(Arrays.asList(tip1, tip2));
+	    }
 
-    @Test
-    void testValidateFailure() {
-        Korisnik korisnik = new Korisnik();
-        Exception thrownException = assertThrows(Exception.class, () -> soGetAllTip.validate(korisnik));
-        assertEquals("Prosledjeni objekat nije instanca klase Tip!", thrownException.getMessage());
-    }
+	    @AfterEach
+	    public void tearDown() throws Exception {
+	        super.tearDown();
+	        soGetAllTip = null;
+	    }
+
+	    @Test
+	    void testValidateSuccess() throws Exception {
+	        Tip tip = new Tip(); 
+	        assertDoesNotThrow(() -> soGetAllTip.validate(tip));
+	    }
+
+	    @Test
+	    void testValidateFailure() {
+	        Korisnik korisnik = new Korisnik();
+	        Exception thrownException = assertThrows(Exception.class, () -> soGetAllTip.validate(korisnik));
+	        assertEquals("Prosledjeni objekat nije instanca klase Tip!", thrownException.getMessage());
+	    }
+
+	    
     
    
 

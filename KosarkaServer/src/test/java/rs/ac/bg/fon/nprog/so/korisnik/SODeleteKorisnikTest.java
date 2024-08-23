@@ -1,6 +1,7 @@
 package rs.ac.bg.fon.nprog.so.korisnik;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -28,20 +29,18 @@ class SODeleteKorisnikTest extends AbstractSOTest{
 
 	 private SODeleteKorisnik soDeleteKorisnik;
 	    
-	    @Mock
-	    private DBBroker dbBrokerMock;
 
 	    @BeforeEach
 		protected
-	    void setUp() {
-	        MockitoAnnotations.openMocks(this);
-	        soDeleteKorisnik = new SODeleteKorisnik(dbBrokerMock); 
+	    void setUp() throws Exception {
+	        super.setUp();
+	        soDeleteKorisnik = new SODeleteKorisnik(dbb); 
 	    }
 
 	    @AfterEach
 		protected
-	    void tearDown() {
-	        dbBrokerMock = null;
+	    void tearDown() throws Exception {
+	        super.tearDown();
 	        soDeleteKorisnik = null;
 	    }
 
@@ -55,9 +54,7 @@ class SODeleteKorisnikTest extends AbstractSOTest{
 	        assertEquals("Prosledjeni objekat nije instanca klase Korisnik!", exception.getMessage());
 	    }
 	
-	
-	
-	
+	    
 	
 	
 	

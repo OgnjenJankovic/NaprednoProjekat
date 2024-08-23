@@ -31,16 +31,12 @@ import rs.ac.bg.fon.nprog.so.AbstractSOTest;
 
 class SOUpdateKorisnikTest extends AbstractSOTest{
 
-	@InjectMocks
-    private SOUpdateKorisnik soUpdateKorisnik;
-
-    @Mock
-    private DBBroker dbBroker;
+	private SOUpdateKorisnik soUpdateKorisnik;
 
     @BeforeEach
     protected void setUp() throws Exception {
         super.setUp();
-        soUpdateKorisnik = new SOUpdateKorisnik(dbBroker);
+        soUpdateKorisnik = new SOUpdateKorisnik(dbb);
     }
 
     @AfterEach
@@ -55,7 +51,7 @@ class SOUpdateKorisnikTest extends AbstractSOTest{
         ArrayList<AbstractDomainObject> existingUsers = new ArrayList<>();
         existingUsers.add(k);
 
-        when(dbBroker.select(any(Korisnik.class))).thenReturn(existingUsers);
+        when(dbb.select(any(Korisnik.class))).thenReturn(existingUsers);
 
         assertDoesNotThrow(() -> soUpdateKorisnik.validate(k));
     }
@@ -73,7 +69,7 @@ class SOUpdateKorisnikTest extends AbstractSOTest{
         ArrayList<AbstractDomainObject> existingUsers = new ArrayList<>();
         existingUsers.add(new Korisnik(2L, "Veljko", "Nikolic", "veljko@gmail.com", "0632232234", new Tip(2L, "Free")));
         
-        when(dbBroker.select(any(Korisnik.class))).thenReturn(existingUsers);
+        when(dbb.select(any(Korisnik.class))).thenReturn(existingUsers);
 
         Exception thrownException = assertThrows(Exception.class, () -> soUpdateKorisnik.validate(k));
         assertEquals("Korisnik sa tim emailom vec postoji!", thrownException.getMessage());
@@ -85,14 +81,13 @@ class SOUpdateKorisnikTest extends AbstractSOTest{
         ArrayList<AbstractDomainObject> existingUsers = new ArrayList<>();
         existingUsers.add(new Korisnik(2L, "Veljko", "Nikolic", "veljko@gmail.com", "0654645434", new Tip(2L, "Free")));
 
-        when(dbBroker.select(any(Korisnik.class))).thenReturn(existingUsers);
+        when(dbb.select(any(Korisnik.class))).thenReturn(existingUsers);
 
         Exception thrownException = assertThrows(Exception.class, () -> soUpdateKorisnik.validate(k));
         assertEquals("Korisnik sa tim telefonom vec postoji!", thrownException.getMessage());
     }
 
     
-
     
 
    

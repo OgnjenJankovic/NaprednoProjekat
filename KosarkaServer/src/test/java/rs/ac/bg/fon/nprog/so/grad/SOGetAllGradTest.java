@@ -1,6 +1,6 @@
 package rs.ac.bg.fon.nprog.so.grad;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*; 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -43,9 +43,6 @@ class SOGetAllGradTest extends AbstractSOTest {
 	@InjectMocks
     private SOGetAllGrad soGetAllGrad;
 
-    @Mock
-    private Grad grad;
-
     private Grad grad1;
     private Grad grad2;
     private ArrayList<Grad> gradovi;
@@ -61,6 +58,7 @@ class SOGetAllGradTest extends AbstractSOTest {
     @AfterEach
     public void tearDown() throws Exception {
         super.tearDown();
+        soGetAllGrad = null;
     }
 
     @Test
@@ -76,7 +74,32 @@ class SOGetAllGradTest extends AbstractSOTest {
         assertEquals("Prosledjeni objekat nije instanca klase Grad!", thrownException.getMessage());
     }
 
-   
+    @Test
+    void testExecuteSuccess() throws Exception {
+        when(dbb.select(any(Grad.class))).thenReturn(new ArrayList<AbstractDomainObject>(gradovi));
+
+        soGetAllGrad.templateExecute(new Grad());
+
+        verify(dbb, times(1)).select(any(Grad.class));
+
+        assertNotNull(soGetAllGrad.getLista());
+        assertEquals(2, soGetAllGrad.getLista().size());
+        assertEquals("Beograd", soGetAllGrad.getLista().get(0).getNaziv());
+        assertEquals("Novi Sad", soGetAllGrad.getLista().get(1).getNaziv());
+    }
+
+    @Test
+    void testExecuteEmptyResult() throws Exception {
+        when(dbb.select(any(Grad.class))).thenReturn(new ArrayList<>());
+
+        soGetAllGrad.templateExecute(new Grad());
+
+        verify(dbb, times(1)).select(any(Grad.class));
+
+        assertNotNull(soGetAllGrad.getLista());
+        assertTrue(soGetAllGrad.getLista().isEmpty());
+    }
+
     
     
     

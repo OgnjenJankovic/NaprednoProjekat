@@ -8,8 +8,10 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOAddKorisnik extends AbstractSO{
 
+	private DBBroker dbBroker;
+	
 	public SOAddKorisnik(DBBroker dbBroker) {
-        super(dbBroker);
+		this.dbBroker = dbBroker;
     }
 	
 	public SOAddKorisnik() {
@@ -39,7 +41,7 @@ public class SOAddKorisnik extends AbstractSO{
 
     @Override
     protected void execute(AbstractDomainObject ado) throws Exception {
-        DBBroker.getInstance().insert(ado);
+    	DBBroker.getInstance().insert(ado);
     }
 	
 }

@@ -8,8 +8,10 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOGetAllTermin extends AbstractSO{
 
+	private DBBroker dbBroker;
+	
 	public SOGetAllTermin(DBBroker dbBroker) {
-        super(dbBroker);
+		this.dbBroker = dbBroker;
     }
 	
 	public SOGetAllTermin() {

@@ -9,8 +9,10 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOGetAllGrad extends AbstractSO{
 
+	private DBBroker dbBroker;
+	
 	public SOGetAllGrad(DBBroker dbBroker) {
-        super(dbBroker);
+		this.dbBroker = dbBroker;
     }
 	
 	public SOGetAllGrad() {
@@ -28,7 +30,7 @@ public class SOGetAllGrad extends AbstractSO{
 
     @Override
     protected void execute(AbstractDomainObject ado) throws Exception {
-        ArrayList<AbstractDomainObject> gradovi = DBBroker.getInstance().select(ado);
+        ArrayList<AbstractDomainObject> gradovi = dbBroker.select(ado);
         lista = (ArrayList<Grad>) (ArrayList<?>) gradovi;
     }
 

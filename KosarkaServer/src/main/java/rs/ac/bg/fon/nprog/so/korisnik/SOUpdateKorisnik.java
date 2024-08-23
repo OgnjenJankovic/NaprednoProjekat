@@ -8,8 +8,10 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOUpdateKorisnik extends AbstractSO{
 
+	private DBBroker dbBroker;
+	
 	public SOUpdateKorisnik(DBBroker dbBroker) {
-        super(dbBroker);
+		this.dbBroker = dbBroker;
     }
 	
 	public SOUpdateKorisnik() {

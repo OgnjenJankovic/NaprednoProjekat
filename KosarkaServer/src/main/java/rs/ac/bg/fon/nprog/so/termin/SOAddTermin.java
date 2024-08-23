@@ -10,9 +10,11 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
 
 public class SOAddTermin extends AbstractSO{
 
+	private DBBroker dbBroker;
+	
 	public SOAddTermin(DBBroker dbBroker) {
-        super(dbBroker);
-    }
+		this.dbBroker = dbBroker;
+    }	
 	
 	public SOAddTermin() {
         super();

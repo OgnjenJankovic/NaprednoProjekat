@@ -61,6 +61,7 @@ class SOAddTerminTest extends AbstractSOTest{
     @AfterEach
     public void tearDown() throws Exception {
         super.tearDown();
+        soAddTermin = null;
     }
 
     
