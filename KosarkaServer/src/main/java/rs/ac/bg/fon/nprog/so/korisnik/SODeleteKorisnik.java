@@ -16,9 +16,11 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SODeleteKorisnik extends AbstractSO{
 	
+
+	private DBBroker dbBroker;
 	
 	public SODeleteKorisnik(DBBroker dbBroker) {
-        super(dbBroker);
+		this.dbBroker = dbBroker;
     }
 	
 	public SODeleteKorisnik() {

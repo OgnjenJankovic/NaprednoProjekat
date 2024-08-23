@@ -37,6 +37,12 @@ class SOGetAllTerminTest extends AbstractSOTest{
         mockResultList = new ArrayList<>();
         mockResultList.add(termin);
     }
+    
+    @AfterEach
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        soGetAllTermin = null;
+    }
 
     @Test
     void testValidateSuccess() {

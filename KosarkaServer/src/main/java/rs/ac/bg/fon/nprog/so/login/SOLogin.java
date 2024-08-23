@@ -18,9 +18,11 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SOLogin extends AbstractSO{
 
+
+	private DBBroker dbBroker;
 	
 	public SOLogin(DBBroker dbBroker) {
-        super(dbBroker);
+		this.dbBroker = dbBroker;
     }
 	
 	public SOLogin() {

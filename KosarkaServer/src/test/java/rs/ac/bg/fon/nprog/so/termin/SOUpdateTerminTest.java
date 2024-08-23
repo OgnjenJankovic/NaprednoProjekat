@@ -58,7 +58,11 @@ class SOUpdateTerminTest extends AbstractSOTest{
         termin.setAdministrator(new Administrator());
     }
 
-    
+    @AfterEach
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        soUpdateTermin = null;
+    }
 
     @Test
     void testValidateFailureInvalidObject() {

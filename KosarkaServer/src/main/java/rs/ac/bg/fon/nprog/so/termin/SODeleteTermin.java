@@ -17,9 +17,11 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SODeleteTermin extends AbstractSO{
 
+
+	private DBBroker dbBroker;
 	
 	public SODeleteTermin(DBBroker dbBroker) {
-        super(dbBroker);
+		this.dbBroker = dbBroker;
     }
 	
 	public SODeleteTermin() {

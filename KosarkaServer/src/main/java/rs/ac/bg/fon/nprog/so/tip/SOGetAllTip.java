@@ -19,9 +19,11 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SOGetAllTip extends AbstractSO{
 
+
+	private DBBroker dbBroker;
 	
 	public SOGetAllTip(DBBroker dbBroker) {
-        super(dbBroker);
+		this.dbBroker = dbBroker;
     }
 	
 	public SOGetAllTip() {

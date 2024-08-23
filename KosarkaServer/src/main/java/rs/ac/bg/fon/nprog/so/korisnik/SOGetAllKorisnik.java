@@ -17,9 +17,11 @@ import rs.ac.bg.fon.nprog.so.AbstractSO;
  */
 public class SOGetAllKorisnik extends AbstractSO{
 
+
+	private DBBroker dbBroker;
 	
 	public SOGetAllKorisnik(DBBroker dbBroker) {
-        super(dbBroker);
+		this.dbBroker = dbBroker;
     }
 	
 	public SOGetAllKorisnik() {
